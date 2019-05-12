@@ -31,6 +31,8 @@ const addIdSessionToRouter = (req, res, next) => {
 
 router.use('/:idSession/folders', addIdSessionToRouter, require('./folders'));
 router.use('/:idSession/files', addIdSessionToRouter, require('./files'));
+router.use('/:idSession/situations', addIdSessionToRouter, require('./situations'));
+router.use('/:idSession/scenarios', addIdSessionToRouter, require('./scenarios'));
 
 
 module.exports = router;
