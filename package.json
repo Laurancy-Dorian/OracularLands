@@ -1,7 +1,13 @@
 {
   "name": "oracularlands",
-  "version": "0.0.0",
+  "version": "0.0.1",
+  "description": "A web application to manage sessions of my tabletop role-playing game \"Oracular Lands\"",
   "private": true,
+  "author": {
+    "name": "Dorian Laurancy",
+    "email": "laurancy.dorian@gmail.com",
+    "url": ""
+  },
   "scripts": {
     "start": "node ./bin/www"
   },
