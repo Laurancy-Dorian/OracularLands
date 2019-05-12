@@ -33,6 +33,7 @@ router.use('/:idSession/folders', addIdSessionToRouter, require('./folders'));
 router.use('/:idSession/files', addIdSessionToRouter, require('./files'));
 router.use('/:idSession/situations', addIdSessionToRouter, require('./situations'));
 router.use('/:idSession/scenarios', addIdSessionToRouter, require('./scenarios'));
+router.use('/:idSession/character-sheets', addIdSessionToRouter, require('./character-sheets'));
 
 
 module.exports = router;
