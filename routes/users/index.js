@@ -38,10 +38,14 @@ router.route('/:idUser')
 /**
  *  Sub ressources
  */
-router.use('/:idUser/story-arcs', (req, res, next) => {
+
+const addIdUserToRouter = (req, res, next) => {
     req.idUser = req.params.idUser;
     next();
-}, require('./story-arcs'));
+};
+
+router.use('/:idUser/story-arcs', addIdUserToRouter, require('./story-arcs'));
+router.use('/:idUser/sessions', addIdUserToRouter, require('./sessions'));
 
 
 module.exports = router;
