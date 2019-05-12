@@ -47,6 +47,7 @@ const addIdUserToRouter = (req, res, next) => {
 router.use('/:idUser/story-arcs', addIdUserToRouter, require('./story-arcs'));
 router.use('/:idUser/sessions', addIdUserToRouter, require('./sessions'));
 router.use('/:idUser/sessions-playing', addIdUserToRouter, require('./sessions-playing'));
+router.use('/:idUser/folders', addIdUserToRouter, require('./folders'));
 
 
 module.exports = router;
