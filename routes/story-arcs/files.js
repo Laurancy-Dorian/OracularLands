@@ -6,11 +6,8 @@ var router = express.Router();
  */
 router.route('/')
     .get(function (req, res, next) {
-        res.send(`GET /users/${req.idUser}/folders`);
+        res.send(`GET /story-arcs/${req.idStoryArc}/files`);
     })
-    .post(function (req, res, next) {
-        res.send(`POST /users/${req.idUser}/folders`);
-    });
 
 
 /**

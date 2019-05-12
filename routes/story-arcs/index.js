@@ -44,7 +44,8 @@ const addIdStoryArcToRouter = (req, res, next) => {
 };
 
 router.use('/:idStoryArc/scenarios', addIdStoryArcToRouter, require('./scenarios'));
-
 router.use('/:idStoryArc/sessions', addIdStoryArcToRouter, require('./sessions'));
+router.use('/:idStoryArc/folders', addIdStoryArcToRouter, require('./folders'));
+router.use('/:idStoryArc/files', addIdStoryArcToRouter, require('./files'));
 
 module.exports = router;

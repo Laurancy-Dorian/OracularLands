@@ -38,7 +38,12 @@ router.route('/:idSituation')
 /**
  *  Sub ressources
  */
+const addIdSituationToRouter = (req, res, next) => {
+    req.idSituation = req.params.idSituation;
+    next();
+};
 
-
+router.use('/:idSituation/folders', addIdSituationToRouter, require('./folders'));
+router.use('/:idSituation/files', addIdSituationToRouter, require('./files'));
 
 module.exports = router;
