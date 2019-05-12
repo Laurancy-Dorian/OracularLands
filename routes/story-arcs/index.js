@@ -38,6 +38,10 @@ router.route('/:idStoryArc')
 /**
  *  Sub ressources
  */
+router.use('/:idStoryArc/scenarios', (req, res, next) => {
+    req.idStoryArc = req.params.idStoryArc;
+    next();
+}, require('./scenarios'));
 
 
 module.exports = router;
