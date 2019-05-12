@@ -6,13 +6,12 @@ var router = express.Router();
  */
 router.route('/')
     .get(function (req, res, next) {
-        res.send('GET /users/auth');
+        res.send(`GET /users/${req.idUser}/story-arcs`);
     })
     .post(function (req, res, next) {
-        res.send('POST /users/auth');
-    })
-    .delete(function (req, res, next) {
-        res.send('DELETE /users/auth');
+        res.send(`POST /users/${req.idUser}/story-arcs`);
     });
+
+
 
 module.exports = router;

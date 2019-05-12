@@ -6,30 +6,30 @@ var router = express.Router();
  */
 router.route('/')
     .get(function (req, res, next) {
-        res.send('GET /users');
+        res.send('GET /story-arcs');
     })
     .post(function (req, res, next) {
-        res.send('POST /users');
+        res.send('POST /story-arcs');
     });
 
-router.route('/:idUser')
+router.route('/:idStoryArc')
     .get(function (req, res, next) {
-        if (!isNaN(req.params.idUser)) {
-            res.send(`GET user ${req.params.idUser}`);
+        if (!isNaN(req.params.idStoryArc)) {
+            res.send(`GET /story-arcs/${req.params.idStoryArc}`);
         } else {
             res.status(400).send('Bad Request');
         }
     })
     .patch(function (req, res, next) {
-        if (!isNaN(req.params.idUser)) {
-            res.send(`PATCH user ${req.params.idUser}`);
+        if (!isNaN(req.params.idStoryArc)) {
+            res.send(`PATCH /story-arcs/${req.params.idStoryArc}`);
         } else {
             res.status(400).send('Bad Request');
         }
     })
     .delete(function (req, res, next) {
-        if (!isNaN(req.params.idUser)) {
-            res.send(`DELETE user ${req.params.idUser}`);
+        if (!isNaN(req.params.idStoryArc)) {
+            res.send(`DELETE /story-arcs/${req.params.idStoryArc}`);
         } else {
             res.status(400).send('Bad Request');
         }
@@ -38,10 +38,6 @@ router.route('/:idUser')
 /**
  *  Sub ressources
  */
-router.use('/:idUser/story-arcs', (req, res, next) => {
-    req.idUser = req.params.idUser;
-    next();
-}, require('./story-arcs'));
 
 
 module.exports = router;

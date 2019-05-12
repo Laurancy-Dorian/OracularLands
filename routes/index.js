@@ -2,15 +2,10 @@ var express = require('express');
 var router = express.Router();
 
 /**
- *  Routes of this ressource
- */
-router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express' });
-});
-
-/**
  *  Sub ressources
  */
+router.use('/auth', require('./auth'));
 router.use('/users', require('./users'));
+router.use('/story-arcs', require('./story-arcs'));
 
 module.exports = router;

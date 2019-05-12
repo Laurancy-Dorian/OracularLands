@@ -13,13 +13,28 @@ app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
+
 
 /**
- * Loads the routes
+ * Homepage
+ */
+app.get('/', function(req, res, next) {
+    res.send('Homepage');
+});
+
+
+/**
+ * Static files
+ */
+app.use(express.static(path.join(__dirname, 'public')));
+
+
+/**
+ * Loads the routes for all ressources
  */
 var routes = require('./routes');
 app.use('/', routes);
+
 
 /**
  * The 404 Route
