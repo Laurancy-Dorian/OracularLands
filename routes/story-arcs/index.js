@@ -38,10 +38,13 @@ router.route('/:idStoryArc')
 /**
  *  Sub ressources
  */
-router.use('/:idStoryArc/scenarios', (req, res, next) => {
+const addIdStoryArcToRouter = (req, res, next) => {
     req.idStoryArc = req.params.idStoryArc;
     next();
-}, require('./scenarios'));
+};
 
+router.use('/:idStoryArc/scenarios', addIdStoryArcToRouter, require('./scenarios'));
+
+router.use('/:idStoryArc/sessions', addIdStoryArcToRouter, require('./sessions'));
 
 module.exports = router;
