@@ -6,18 +6,18 @@ var router = express.Router();
  */
 router.route('/')
     .get(function (req, res, next) {
-        res.send(`GET /sessions`);
+        res.send(`GET /sessions-playing`);
     });
 
 router.route('/:idSession')
     .get(function (req, res, next) {
-        res.send(`GET /sessions/${req.params.idSession}`);
+        res.send(`GET /sessions-playing/${req.params.idSession}`);
     })
-    .patch(function (req, res, next) {
-        res.send(`PATCH /sessions/${req.params.idSession}`);
+    .put(function (req, res, next) {
+        res.send(`PATCH /sessions-playing/${req.params.idSession}`);
     })
     .delete(function (req, res, next) {
-        res.send(`DELETE /sessions/${req.params.idSession}`);
+        res.send(`DELETE /sessions-playing/${req.params.idSession}`);
     });
 
 /**
