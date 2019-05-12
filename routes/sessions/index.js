@@ -24,6 +24,13 @@ router.route('/:idSession')
  *  Sub ressources
  */
 
+const addIdSessionToRouter = (req, res, next) => {
+    req.idSession = req.params.idSession;
+    next();
+};
+
+router.use('/:idSession/folders', addIdSessionToRouter, require('./folders'));
+router.use('/:idSession/files', addIdSessionToRouter, require('./files'));
 
 
 module.exports = router;

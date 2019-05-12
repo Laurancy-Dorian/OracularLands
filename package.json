@@ -1,6 +1,6 @@
 {
   "name": "oracularlands",
-  "version": "0.1.8",
+  "version": "0.1.9",
   "description": "A web application to manage sessions of my tabletop role-playing game \"Oracular Lands\"",
   "private": true,
   "author": {
