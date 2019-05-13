@@ -1,11 +1,16 @@
 /**
  * Requires libraries
  */
-var express = require('express');
 var path = require('path');
+global.appRoot = path.resolve(__dirname);
+
+var express = require('express');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
-var db = require('./config/db');
+
+/* Creates pool and stores it in global so that all methods can access it */
+global.pool = require('./db/initDB');
+
 
 var app = express();
 
