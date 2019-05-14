@@ -2,13 +2,11 @@ const table = 'users';
 const model = require(appRoot + '/db/models/Model')(table);
 const helper = require(appRoot + '/helpers/basichelper');
 const errors = require(appRoot + '/actions/errors');
+
 const users = {};
 
 /**
- * Send the users list (id and pseudo)
- * @param req
- * @param res
- * @param next
+ * Sends the users list (id and pseudo)
  */
 users.listUsers = (req, res, next) => {
     const fields = ['id_user', 'pseudo_user'];
@@ -17,24 +15,27 @@ users.listUsers = (req, res, next) => {
     });
 }
 
-// TODO
+
 /**
- * Adds an user to the database. Sends a 400 error if data is wrong
- * @param req
- * @param res
- * @param next
+ * Adds an user to the database.
+ * Sends a 400 error if data is wrong
  */
 users.addUser = (req, res, next) => {
 
-    /* Check the imput */
+    /* Check the input */
     if (!req.body.pseudo_user || !req.body.password_user || !req.body.email_user) {
-        errors.addErrorMessage(1, "Bad Request - Your request is missing parameters");
+        errors.addErrorMessage('01', "Bad Request - Your request is missing parameters");
     }
     if (req.body.pseudo_user.length < 4) {
-        errors.addErrorMessage(2, "Bad Request - Your pseudo length has to be > 3");
+        errors.addErrorMessage('02', "Bad Request - Your pseudo length has to be > 3");
     }
     if (req.body.password_user.length < 5) {
-        errors.addErrorMessage(3, "Bad Request - Your password length has to be > 4");
+        errors.addErrorMessage('03', "Bad Request - Your password length has to be > 4");
+    }
+
+    const emailValidator = require('email-validator');
+    if (!emailValidator.validate(req.body.email_user)) {
+        errors.addErrorMessage('04', "Bad Request - Invalid Email");
     }
 
     /* Send errors input if there is sny */
@@ -43,18 +44,21 @@ users.addUser = (req, res, next) => {
 
         /* Creates the user */
     } else {
-            model.create(req.body, {}, (results, error) => {
-                if (error) {
-                    console.log(error);
-                    res.send('BENMERDE');
+        model.create(req.body, {}, (results, error) => {
+
+            if (!error) { /* Success */
+                res.status(201).json({'id_user': results.insertId});
+            } else {
+                if (error.code == 'ER_DUP_ENTRY') { /* Database error */
+                    errors.addErrorMessage('10', "Pseudo or email already used - " + error.sqlMessage);
                 } else {
-                    res.send(results);
+                    errors.addErrorMessage('-1', error.sqlMessage);
                 }
+                errors.sendErrors(res, 409);
+            }
 
-            });
-
+        });
     }
-
 }
 
 module.exports = users;
