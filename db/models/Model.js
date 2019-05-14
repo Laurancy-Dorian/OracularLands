@@ -1,16 +1,15 @@
-
 /**
- * Analyses the parameter and assigns values to the variables whereSql as "WHERE field = ? AND field2 = ?"
- *                    and whereValues as [value1, value2] to be used in sql query
+ * Creates the string for SQL WHERE
  *
- * @param where  an object on the form :
- *                              {
- *                                  field: value1,
- *                                  field2: value2
- *                              }
- *                              where field is an attribute of the table and value is its value.
+ * use this function in a query :
+ *            query('SELECT * FROM table' + sql, whereArray)
  *
- * @param next the callback function with parameters (whereSql, whereValues)
+ * @param where  an object on the form (example) :  {field1: value1, field2: value2}
+ *                  where field is an attribute/field of the table and value is its value.
+ *
+ * @param next  the callback function with parameters (sql, whereArray) :
+ *                  - sql contains the string "WHERE field1 = ? AND field2 = ?"
+ *                  - whereArray contains the array [value1, value2]
  */
 const formatWhere = (where, next) => {
     let whereValues = [];
@@ -18,10 +17,40 @@ const formatWhere = (where, next) => {
     let and = 'WHERE ';
     for (let key in where) {
         whereSql += and + key + ' = ?';
-        whereValues.push(where[key])
+        whereValues.push(where[key]);
         and = ' AND ';
     }
-    next (whereSql, whereValues);
+    next(whereSql, whereValues);
+}
+
+/**
+ * Creates the string for SQL INSERT or UPDATE requests and the associated data array
+ *
+ * use : You should use the results of this this function in a query :
+ *            query('INSERT INTO table' + sql, valuesArray)
+ *
+ * @param values  an object on the form (example) : {field1: value1, field2: value2}
+ *                  where field is an attribute/field of the table and value is its value.
+ *
+ * @param next   the callback function with parameters (sql, valuesArray) :
+ *                  - sql contains the string "(field1, field2) VALUES (?,?)"
+ *                  - valuesArray contains the array [value1, value2]
+ */
+const formatValues = (values, next) => {
+    let fieldsSql = ' ';
+    let valuesSql = ' VALUES ';
+    let valFields = [];
+    let sep = '(';
+    for (let key in values) {
+        fieldsSql += sep + key;
+        valuesSql += sep + '?';
+        valFields.push(values[key]);
+        sep = ', ';
+    }
+    fieldsSql += ')';
+    valuesSql += ')';
+    fieldsSql += valuesSql;
+    next(fieldsSql, valFields);
 }
 
 
@@ -30,79 +59,76 @@ module.exports = (table) => {
 
     /**
      * Reads all the rows in the table
-     * @param next  the callback function when the query is done : (res) => {};
+     * @param next  the callback function when the query is done : (res, err) => {};
+     *                      if  err is not empty, this means the query failed.
+     *
      */
     model.readAll = (next) => {
-        pool.query('SELECT * FROM ' + table,(error, results, fields) => {
+        pool.query('SELECT * FROM ' + table, (error, results, fields) => {
             if (error) {
                 throw error;
             } else if (next) {
-                next(results[0]);
+                next(results, error);
             }
         });
     };
 
     /**
-     * Read the rows in table corresponding to where.
+     * Read the rows in table corresponding to where parameter.
      *
-     * @param select an array of string representing the fields you want to select
-     * @param where  an object on the form :
-     *          {
-     *              field: value1,
-     *              field2: value2
-     *          }
-     *      where field is an attribute of the table and value is its value.
-     *      ==> This will give : SELECT * FROM table WHERE filed = value1 AND field2 = value2
+     * @param select    an array of string representing the fields you want to select
+     *          example : ['id_user', 'name_user'] will create "SELECT id_user, name_user FROM ...'
      *
-     *      {} if you don't want WHERE
+     * @param where     an object on the form (example) :  {field1: value1, field2: value2}
+     *                      where field is an attribute/field of the table and value is its value.
+     *          this example will give : " ... WHERE field1 = value1 AND field2 = value2"
      *
-     * @param next the callback function when the query is done : (res) => {};
+     *   ===>  give an empty object {} if you don't want a WHERE clause
+     *
+     * @param next   the callback function when the query is done : (res, err) => {};
+     *                  if  err is not empty, this means the query failed.
      */
     model.read = (select, where, next) => {
         formatWhere(where, (whereSql, values) => {
             let sql = 'SELECT ' + select.join(', ') + ' FROM ' + table + whereSql;
             pool.query(sql, values, (error, results, fields) => {
-                if (error) {
-                    throw error;
-                } else if (next) {
-                    next(results[0]);
-                }
+                next(results, error);
             });
         });
     };
 
-/*    /!**
+    /**
      * Insert the rows in table corresponding to where.
      *
-     * @param values
+     * @param values  an object on the form (example) : {field1: value1, field2: value2}
+     *                   where field is an attribute of the table and value is its value.
+     *               This example will give : "INSERT INTO table (field1, field2) VALUES (value1, value2)"
      *
-     * @param where  an object on the form :
-     *          {
-     *              field: value1,
-     *              field2: value2
-     *          }
-     *      where field is an attribute of the table and value is its value.
-     *      ==> This will give : SELECT * FROM table WHERE filed = value1 AND field2 = value2
+     * @param where     an object on the form (example) :  {field1: value1, field2: value2}
+     *                      where field is an attribute/field of the table and value is its value.
+     *          this example will give : " ... WHERE field1 = value1 AND field2 = value2"
      *
-     *      {} if you don't want WHERE
+     *   ===>  give an empty object {} if you don't want a WHERE clause
      *
-     * @param next the callback function when the query is done : (res) => {};
-     *!/
+     * @param next   the callback function when the query is done : (res, err) => {};
+     *                  if  err is not empty, this means the query failed.
+     */
     model.create = (values, where, next) => {
-        formatWhere(where, (whereSql, whereValues) => {
-            let sql = 'INSERT INTO' + table + ' VALUES ' + whereSql;
-            pool.query(sql, whereValues, (error, results, fields) => {
-                if (error) {
-                    throw error;
-                } else if (next) {
-                    next(results);
-                }
+        formatWhere(where, (whereSql, whereArray) => {
+
+            formatValues(values, (insertSql, valuesArray) => {
+                let sql = 'INSERT INTO ' + table + insertSql + whereSql;
+
+                pool.query(sql, valuesArray.concat(whereArray), (error, results, fields) => {
+                    next(results, error);
+                });
             });
         });
-    };*/
 
+    }
 
 
     return model;
-};
+}
+;
 
