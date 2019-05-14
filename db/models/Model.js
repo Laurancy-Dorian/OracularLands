@@ -24,7 +24,7 @@ const formatWhere = (where, next) => {
 }
 
 /**
- * Creates the string for SQL INSERT or UPDATE requests and the associated data array
+ * Creates the string for SQL INSERT requests and the associated data array
  *
  * use : You should use the results of this this function in a query :
  *            query('INSERT INTO table' + sql, valuesArray)
@@ -36,7 +36,7 @@ const formatWhere = (where, next) => {
  *                  - sql contains the string "(field1, field2) VALUES (?,?)"
  *                  - valuesArray contains the array [value1, value2]
  */
-const formatValues = (values, next) => {
+const formatValuesInsert = (values, next) => {
     let fieldsSql = ' ';
     let valuesSql = ' VALUES ';
     let valFields = [];
@@ -53,6 +53,31 @@ const formatValues = (values, next) => {
     next(fieldsSql, valFields);
 }
 
+/**
+ * Creates the string for SQL UPDATE requests and the associated data array
+ *
+ * use : You should use the results of this this function in a query :
+ *            query('UPDATE table' + sql, valuesArray)
+ *
+ * @param values  an object on the form (example) : {field1: value1, field2: value2}
+ *                  where field is an attribute/field of the table and value is its value.
+ *
+ * @param next   the callback function with parameters (sql, valuesArray) :
+ *                  - sql contains the string "(field1, field2) VALUES (?,?)"
+ *                  - valuesArray contains the array [value1, value2]
+ */
+const formatValuesUpdate = (values, next) => {
+    let sql = ' SET ';
+    let valuesArray = [];
+    let sep = '';
+    for (let key in values) {
+        sql += sep + key + " = ?";
+        valuesArray.push(values[key]);
+        sep = ', ';
+    }
+    next(sql, valuesArray);
+}
+
 
 module.exports = (table) => {
     var model = {};
@@ -60,7 +85,7 @@ module.exports = (table) => {
     /**
      * Reads all the rows in the table
      * @param next  the callback function when the query is done : (res, err) => {};
-     *                      if  err is not empty, this means the query failed.
+     *                      if  err is NOT empty, this means the query failed.
      *
      */
     model.readAll = (next) => {
@@ -87,7 +112,7 @@ module.exports = (table) => {
      *   ===>  give an empty object {} if you don't want a WHERE clause
      *
      * @param next   the callback function when the query is done : (res, err) => {};
-     *                  if  err is not empty, this means the query failed.
+     *                  if  err is NOT empty, this means the query failed.
      */
     model.read = (select, where, next) => {
         formatWhere(where, (whereSql, values) => {
@@ -112,13 +137,42 @@ module.exports = (table) => {
      *   ===>  give an empty object {} if you don't want a WHERE clause
      *
      * @param next   the callback function when the query is done : (res, err) => {};
-     *                  if  err is not empty, this means the query failed.
+     *                  if  err is NOT empty, this means the query failed.
      */
     model.create = (values, where, next) => {
         formatWhere(where, (whereSql, whereArray) => {
 
-            formatValues(values, (insertSql, valuesArray) => {
+            formatValuesInsert(values, (insertSql, valuesArray) => {
                 let sql = 'INSERT INTO ' + table + insertSql + whereSql;
+
+                pool.query(sql, valuesArray.concat(whereArray), (error, results, fields) => {
+                    next(results, error);
+                });
+            });
+        });
+    }
+
+    /**
+     * Update the rows in table corresponding to where.
+     *
+     * @param values  an object on the form (example) : {field1: value1, field2: value2}
+     *                   where field is an attribute of the table and value is its value.
+     *               This example will give : "UPDATE table SET field1 = 'value1', field2 = 'value2'"
+     *
+     * @param where     an object on the form (example) :  {field1: value1, field2: value2}
+     *                      where field is an attribute/field of the table and value is its value.
+     *          this example will give : " ... WHERE field1 = value1 AND field2 = value2"
+     *
+     *   ===>  give an empty object {} if you don't want a WHERE clause
+     *
+     * @param next   the callback function when the query is done : (res, err) => {};
+     *                  if err is NOT empty, this means the query failed.
+     */
+    model.update = (values, where, next) => {
+        formatWhere(where, (whereSql, whereArray) => {
+
+            formatValuesUpdate(values, (updateSql, valuesArray) => {
+                let sql = 'UPDATE ' + table + updateSql + whereSql;
 
                 pool.query(sql, valuesArray.concat(whereArray), (error, results, fields) => {
                     next(results, error);

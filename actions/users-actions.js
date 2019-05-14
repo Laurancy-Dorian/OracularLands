@@ -16,7 +16,6 @@ users.listUsers = (req, res, next) => {
     });
 }
 
-
 /**
  * Adds an user to the database.
  * Sends a 400 error if data is wrong
@@ -28,39 +27,40 @@ users.addUser = (req, res, next) => {
     if (!req.body.pseudo_user || !req.body.password_user || !req.body.email_user) {
         errors.addErrorMessage('01', "Bad Request - Your request is missing parameters");
     }
-    if (req.body.pseudo_user.length < 4) {
+    if (req.body.pseudo_user && req.body.pseudo_user.length < 4) {
         errors.addErrorMessage('02', "Bad Request - Your pseudo length has to be > 3");
     }
-    if (req.body.password_user.length < 5) {
+    if (req.body.password_user && req.body.password_user.length < 5) {
         errors.addErrorMessage('03', "Bad Request - Your password length has to be > 4");
     }
 
     const emailValidator = require('email-validator');
-    if (!emailValidator.validate(req.body.email_user)) {
+    if (req.body.email_user && !emailValidator.validate(req.body.email_user)) {
         errors.addErrorMessage('04', "Bad Request - Invalid Email");
     }
 
     /* Send errors input if there is sny */
     if (errors.defined()) {
         errors.sendErrors(res, 400);
-
-        /* Creates the user */
     } else {
-        model.create(req.body, {}, (results, error) => {
-
-            if (!error) { /* Success */
-                res.status(201).json({'id_user': results.insertId});
-            } else {
-                if (error.code == 'ER_DUP_ENTRY') { /* Database error */
-                    errors.addErrorMessage('10', "Pseudo or email already used - " + error.sqlMessage);
+        users.checkInput(req, res, (req, res) => {
+            /* Creates the user */
+            model.create(req.body, {}, (results, error) => {
+                if (!error) { /* Success */
+                    res.status(201).json({'id_user': results.insertId});
                 } else {
-                    errors.addErrorMessage('-1', error.sqlMessage);
+                    if (error.code == 'ER_DUP_ENTRY') { /* Database error */
+                        errors.addErrorMessage('10', "Pseudo or email already used - " + error.sqlMessage);
+                    } else {
+                        errors.addErrorMessage('-1', error.sqlMessage);
+                    }
+                    errors.sendErrors(res, 409);
                 }
-                errors.sendErrors(res, 409);
-            }
-
+            });
         });
+
     }
+
 }
 
 /**
@@ -79,8 +79,44 @@ users.getUser = (req, res, next) => {
             errors.sendErrors(res, 404);
         }
     });
+}
 
 
+users.updateUser = (req, res, next) => {
+    let errors = errorAction();
+
+    /* Check the input */
+    if (req.body.pseudo_user && req.body.pseudo_user.length < 4) {
+        errors.addErrorMessage('02', "Bad Request - Your pseudo length has to be > 3");
+    }
+    if (req.body.password_user && req.body.password_user.length < 5) {
+        errors.addErrorMessage('03', "Bad Request - Your password length has to be > 4");
+    }
+
+    const emailValidator = require('email-validator');
+    if (req.body.email_user && !emailValidator.validate(req.body.email_user)) {
+        errors.addErrorMessage('04', "Bad Request - Invalid Email");
+    }
+
+    /* Send errors input if there is sny */
+    if (errors.defined()) {
+        errors.sendErrors(res, 400);
+    } else {
+        const where = {'id_user':req.idUser};
+        /* updates the user */
+        model.update(req.body, where, (results, error) => {
+            if (!error) { /* Success */
+                res.status(204).end();
+            } else {
+                if (error.code == 'ER_DUP_ENTRY') { /* Database error */
+                    errors.addErrorMessage('10', "Pseudo or email already used - " + error.sqlMessage);
+                } else {
+                    errors.addErrorMessage('-1', error.sqlMessage);
+                }
+                errors.sendErrors(res, 409);
+            }
+        });
+    }
 }
 
 module.exports = users;

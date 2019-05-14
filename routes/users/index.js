@@ -15,13 +15,7 @@ router.route('/')
 
 router.route('/:idUser')
     .get(addIdUserToRouter, userActions.getUser)
-    .patch(function (req, res, next) {
-        if (!isNaN(req.params.idUser)) {
-            res.send(`PATCH user ${req.params.idUser}`);
-        } else {
-            res.status(400).send('Bad Request');
-        }
-    })
+    .patch(addIdUserToRouter, userActions.updateUser)
     .delete(function (req, res, next) {
         if (!isNaN(req.params.idUser)) {
             res.send(`DELETE user ${req.params.idUser}`);
