@@ -37,7 +37,7 @@ module.exports = (table) => {
             if (error) {
                 throw error;
             } else if (next) {
-                next(results);
+                next(results[0]);
             }
         });
     };
@@ -45,6 +45,7 @@ module.exports = (table) => {
     /**
      * Read the rows in table corresponding to where.
      *
+     * @param select an array of string representing the fields you want to select
      * @param where  an object on the form :
      *          {
      *              field: value1,
@@ -57,14 +58,14 @@ module.exports = (table) => {
      *
      * @param next the callback function when the query is done : (res) => {};
      */
-    model.read = (where, next) => {
+    model.read = (select, where, next) => {
         formatWhere(where, (whereSql, values) => {
-            let sql = 'SELECT * FROM ' + table + whereSql;
+            let sql = 'SELECT ' + select.join(', ') + ' FROM ' + table + whereSql;
             pool.query(sql, values, (error, results, fields) => {
                 if (error) {
                     throw error;
                 } else if (next) {
-                    next(results);
+                    next(results[0]);
                 }
             });
         });
