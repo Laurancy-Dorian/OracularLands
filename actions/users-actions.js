@@ -1,7 +1,8 @@
 const table = 'users';
 const model = require(appRoot + '/db/models/Model')(table);
 const helper = require(appRoot + '/helpers/basichelper');
-const errors = require(appRoot + '/actions/errors');
+const errorAction = require(appRoot + '/actions/errors');
+
 
 const users = {};
 
@@ -21,6 +22,7 @@ users.listUsers = (req, res, next) => {
  * Sends a 400 error if data is wrong
  */
 users.addUser = (req, res, next) => {
+    let errors = errorAction();
 
     /* Check the input */
     if (!req.body.pseudo_user || !req.body.password_user || !req.body.email_user) {
