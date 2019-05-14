@@ -79,6 +79,7 @@ module.exports = (table) => {
      * @param select    an array of string representing the fields you want to select
      *          example : ['id_user', 'name_user'] will create "SELECT id_user, name_user FROM ...'
      *
+     *
      * @param where     an object on the form (example) :  {field1: value1, field2: value2}
      *                      where field is an attribute/field of the table and value is its value.
      *          this example will give : " ... WHERE field1 = value1 AND field2 = value2"

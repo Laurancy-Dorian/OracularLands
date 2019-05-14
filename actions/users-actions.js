@@ -63,4 +63,24 @@ users.addUser = (req, res, next) => {
     }
 }
 
+/**
+ * Gets an user to the database.
+ * Sends a 404 error if the id is wrong
+ */
+users.getUser = (req, res, next) => {
+    let errors = errorAction();
+    const fields = ['id_user', 'pseudo_user', 'email_user'];
+    const where = {'id_user': req.idUser};
+    model.read(fields, where, (results, error) => {
+        if (!error && results.length > 0) {
+            res.json(results);
+        } else {
+            errors.addErrorMessage('1', 'Error 404 - There is no user with this id');
+            errors.sendErrors(res, 404);
+        }
+    });
+
+
+}
+
 module.exports = users;

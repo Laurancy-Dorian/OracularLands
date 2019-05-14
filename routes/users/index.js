@@ -5,18 +5,16 @@ const userActions = require (appRoot + '/actions/users-actions');
 /**
  *  Routes of this ressource
  */
+const addIdUserToRouter = (req, res, next) => {
+    req.idUser = req.params.idUser;
+    next();
+};
 router.route('/')
     .get(userActions.listUsers)
     .post(userActions.addUser);
 
 router.route('/:idUser')
-    .get(function (req, res, next) {
-        if (!isNaN(req.params.idUser)) {
-            res.send(`GET user ${req.params.idUser}`);
-        } else {
-            res.status(400).send('Bad Request');
-        }
-    })
+    .get(addIdUserToRouter, userActions.getUser)
     .patch(function (req, res, next) {
         if (!isNaN(req.params.idUser)) {
             res.send(`PATCH user ${req.params.idUser}`);
@@ -35,12 +33,6 @@ router.route('/:idUser')
 /**
  *  Sub ressources
  */
-
-const addIdUserToRouter = (req, res, next) => {
-    req.idUser = req.params.idUser;
-    next();
-};
-
 router.use('/:idUser/story-arcs', addIdUserToRouter, require('./story-arcs'));
 router.use('/:idUser/sessions', addIdUserToRouter, require('./sessions'));
 router.use('/:idUser/sessions-playing', addIdUserToRouter, require('./sessions-playing'));
