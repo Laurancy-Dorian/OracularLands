@@ -11,8 +11,8 @@ var logger = require('morgan');
 /* Creates pool and stores it in global so that all methods can access it */
 global.pool = require('./db/initDB');
 
-
 var app = express();
+
 
 app.use(logger('dev'));
 app.use(express.json());
