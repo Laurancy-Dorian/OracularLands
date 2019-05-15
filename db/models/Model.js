@@ -102,7 +102,7 @@ module.exports = (table) => {
     };
 
     /**
-     * Read the rows in table, according to the where parameter.
+     * Reads the rows in table, according to the where parameter.
      *
      * @param select    an array of string representing the fields you want to select
      *          example : ['id_user', 'name_user'] will create "SELECT id_user, name_user FROM ...'

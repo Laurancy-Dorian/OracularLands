@@ -1,6 +1,7 @@
 node_modules/*
 .idea/*
 ./userdocuments/*
+config/*
 config/config
 config/db
 

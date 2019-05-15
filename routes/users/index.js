@@ -1,6 +1,8 @@
 var express = require('express');
 var router = express.Router();
 
+
+const auth = require (appRoot + '/actions/auth');
 const userActions = require (appRoot + '/actions/users-actions');
 /**
  *  Routes of this ressource
@@ -15,8 +17,8 @@ router.route('/')
 
 router.route('/:idUser')
     .get(addIdUserToRouter, userActions.getUser)
-    .patch(addIdUserToRouter, userActions.updateUser)
-    .delete(addIdUserToRouter, userActions.deleteUser);
+    .patch(addIdUserToRouter, auth.getToken, userActions.updateUser)
+    .delete(addIdUserToRouter, auth.getToken, userActions.deleteUser);
 
 /**
  *  Sub ressources
