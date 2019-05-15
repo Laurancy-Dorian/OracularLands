@@ -1,9 +1,0 @@
-module.exports = {
-    db: {
-        user: 'nodeuser',
-        host: 'localhost',
-        database: 'oracularlands',
-        password: '18031998',
-        port: '3306'
-    }
-};
