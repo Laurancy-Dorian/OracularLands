@@ -3,7 +3,7 @@ var router = express.Router();
 
 
 const auth = require (appRoot + '/actions/auth');
-const userActions = require (appRoot + '/actions/users-actions');
+const userActions = require (appRoot + '/actions/users');
 /**
  *  Routes of this ressource
  */

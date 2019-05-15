@@ -60,6 +60,20 @@ auth.verifyToken = (req, res, next) => {
 }
 
 /**
+ * Validates the token of the user, and sets the data in req.dataToken
+ * Calls next if the user is connected with a valid token
+ * sends a 403 error else
+ */
+auth.validateToken = (req, res, next) => {
+    auth.getToken(req, res, () => {
+        auth.verifyToken(req, res, (data) => {
+            req.dataToken = data;
+            next();
+        });
+    });
+}
+
+/**
  * Login the user
  * Check if the pseudo and password in the body match the data in db, and generate a token if so
  * Sends a 403 error else.

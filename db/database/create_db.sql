@@ -17,7 +17,6 @@ CREATE TABLE users(
     password_user VARCHAR(128) NOT NULL,
     email_user VARCHAR(256) NOT NULL,
     email_user_verified TINYINT(1) DEFAULT 0,
-
     CONSTRAINT pk_users PRIMARY KEY (id_user),
     UNIQUE KEY unique_pseudo (pseudo_user),
     UNIQUE KEY unique_email (email_user)
