@@ -2,6 +2,7 @@ const table = 'users';
 const model = require(appRoot + '/db/models/Model')(table);
 const helper = require(appRoot + '/helpers/basichelper');
 const errorAction = require(appRoot + '/actions/errors');
+const bcrypt = require('bcrypt');
 
 
 const users = {};
@@ -43,21 +44,25 @@ users.addUser = (req, res, next) => {
     if (errors.defined()) {
         errors.sendErrors(res, 400);
     } else {
-        /* Creates the user */
-        model.create(req.body, {}, (results, error) => {
-            if (!error) { /* Success */
-                res.status(201).json({'id_user': results.insertId});
-            } else {
-                if (error.code == 'ER_DUP_ENTRY') { /* Database error */
-                    errors.addErrorMessage('10', "Pseudo or email already used - " + error.sqlMessage);
+        /* Hash the password */
+        bcrypt.hash(req.body.password_user, 10, function(err, hash) {
+
+            req.body.password_user = hash;
+
+            /* Creates the user */
+            model.create(req.body, {}, (results, error) => {
+                if (!error) { /* Success */
+                    res.status(201).json({'id_user': results.insertId});
                 } else {
-                    errors.addErrorMessage('-1', error.sqlMessage);
+                    if (error.code == 'ER_DUP_ENTRY') { /* Database error */
+                        errors.addErrorMessage('10', "Pseudo or email already used - " + error.sqlMessage);
+                    } else {
+                        errors.addErrorMessage('-1', error.sqlMessage);
+                    }
+                    errors.sendErrors(res, 409);
                 }
-                errors.sendErrors(res, 409);
-            }
+            });
         });
-
-
     }
 
 }
@@ -101,19 +106,25 @@ users.updateUser = (req, res, next) => {
     if (errors.defined()) {
         errors.sendErrors(res, 400);
     } else {
-        const where = {'id_user': req.idUser};
-        /* updates the user */
-        model.update(req.body, where, (results, error) => {
-            if (!error) { /* Success */
-                res.status(204).end();
-            } else {
-                if (error.code == 'ER_DUP_ENTRY') { /* Database error */
-                    errors.addErrorMessage('10', "Pseudo or email already used - " + error.sqlMessage);
+        /* Hash the password */
+        bcrypt.hash(req.body.password_user, 10, function(err, hash) {
+            req.body.password_user = hash;
+
+            const where = {'id_user': req.idUser};
+
+            /* updates the user */
+            model.update(req.body, where, (results, error) => {
+                if (!error) { /* Success */
+                    res.status(204).end();
                 } else {
-                    errors.addErrorMessage('-1', error.sqlMessage);
+                    if (error.code == 'ER_DUP_ENTRY') { /* Database error */
+                        errors.addErrorMessage('10', "Pseudo or email already used - " + error.sqlMessage);
+                    } else {
+                        errors.addErrorMessage('-1', error.sqlMessage);
+                    }
+                    errors.sendErrors(res, 409);
                 }
-                errors.sendErrors(res, 409);
-            }
+            });
         });
     }
 }
