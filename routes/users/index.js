@@ -16,13 +16,7 @@ router.route('/')
 router.route('/:idUser')
     .get(addIdUserToRouter, userActions.getUser)
     .patch(addIdUserToRouter, userActions.updateUser)
-    .delete(function (req, res, next) {
-        if (!isNaN(req.params.idUser)) {
-            res.send(`DELETE user ${req.params.idUser}`);
-        } else {
-            res.status(400).send('Bad Request');
-        }
-    });
+    .delete(addIdUserToRouter, userActions.deleteUser);
 
 /**
  *  Sub ressources

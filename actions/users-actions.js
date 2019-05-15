@@ -43,21 +43,20 @@ users.addUser = (req, res, next) => {
     if (errors.defined()) {
         errors.sendErrors(res, 400);
     } else {
-        users.checkInput(req, res, (req, res) => {
-            /* Creates the user */
-            model.create(req.body, {}, (results, error) => {
-                if (!error) { /* Success */
-                    res.status(201).json({'id_user': results.insertId});
+        /* Creates the user */
+        model.create(req.body, {}, (results, error) => {
+            if (!error) { /* Success */
+                res.status(201).json({'id_user': results.insertId});
+            } else {
+                if (error.code == 'ER_DUP_ENTRY') { /* Database error */
+                    errors.addErrorMessage('10', "Pseudo or email already used - " + error.sqlMessage);
                 } else {
-                    if (error.code == 'ER_DUP_ENTRY') { /* Database error */
-                        errors.addErrorMessage('10', "Pseudo or email already used - " + error.sqlMessage);
-                    } else {
-                        errors.addErrorMessage('-1', error.sqlMessage);
-                    }
-                    errors.sendErrors(res, 409);
+                    errors.addErrorMessage('-1', error.sqlMessage);
                 }
-            });
+                errors.sendErrors(res, 409);
+            }
         });
+
 
     }
 
@@ -75,7 +74,7 @@ users.getUser = (req, res, next) => {
         if (!error && results.length > 0) {
             res.json(results);
         } else {
-            errors.addErrorMessage('1', 'Error 404 - There is no user with this id');
+            errors.addErrorMessage('01', 'Error 404 - There is no user with this id');
             errors.sendErrors(res, 404);
         }
     });
@@ -102,7 +101,7 @@ users.updateUser = (req, res, next) => {
     if (errors.defined()) {
         errors.sendErrors(res, 400);
     } else {
-        const where = {'id_user':req.idUser};
+        const where = {'id_user': req.idUser};
         /* updates the user */
         model.update(req.body, where, (results, error) => {
             if (!error) { /* Success */
@@ -117,6 +116,26 @@ users.updateUser = (req, res, next) => {
             }
         });
     }
+}
+
+/**
+ * Deletes the user
+ * Return a 404
+ * @param req
+ * @param res
+ * @param next
+ */
+users.deleteUser = (req, res, next) => {
+    let errors = errorAction();
+    const where = {'id_user': req.idUser};
+    model.delete(where, (results, error) => {
+        if (!error && results.affectedRows != 0) {
+            res.status(204).end();
+        } else {
+            errors.addErrorMessage('01', 'Error 404 - There is no user with this id');
+            errors.sendErrors(res, 404);
+        }
+    });
 }
 
 module.exports = users;

@@ -1,11 +1,14 @@
 /**
  * Creates the string for SQL WHERE
+ * ==> "WHERE field = value AND field2 = value2 ..."
  *
  * use this function in a query :
  *            query('SELECT * FROM table' + sql, whereArray)
  *
  * @param where  an object on the form (example) :  {field1: value1, field2: value2}
  *                  where field is an attribute/field of the table and value is its value.
+ *
+ *                => Giving an empty object will give an empty string
  *
  * @param next  the callback function with parameters (sql, whereArray) :
  *                  - sql contains the string "WHERE field1 = ? AND field2 = ?"
@@ -99,7 +102,7 @@ module.exports = (table) => {
     };
 
     /**
-     * Read the rows in table corresponding to where parameter.
+     * Read the rows in table, according to the where parameter.
      *
      * @param select    an array of string representing the fields you want to select
      *          example : ['id_user', 'name_user'] will create "SELECT id_user, name_user FROM ...'
@@ -124,7 +127,7 @@ module.exports = (table) => {
     };
 
     /**
-     * Insert the rows in table corresponding to where.
+     * Insert the rows in table, according to where parameter.
      *
      * @param values  an object on the form (example) : {field1: value1, field2: value2}
      *                   where field is an attribute of the table and value is its value.
@@ -141,10 +144,8 @@ module.exports = (table) => {
      */
     model.create = (values, where, next) => {
         formatWhere(where, (whereSql, whereArray) => {
-
             formatValuesInsert(values, (insertSql, valuesArray) => {
                 let sql = 'INSERT INTO ' + table + insertSql + whereSql;
-
                 pool.query(sql, valuesArray.concat(whereArray), (error, results, fields) => {
                     next(results, error);
                 });
@@ -153,7 +154,7 @@ module.exports = (table) => {
     }
 
     /**
-     * Update the rows in table corresponding to where.
+     * Update the rows in table, according to where parameter.
      *
      * @param values  an object on the form (example) : {field1: value1, field2: value2}
      *                   where field is an attribute of the table and value is its value.
@@ -170,20 +171,38 @@ module.exports = (table) => {
      */
     model.update = (values, where, next) => {
         formatWhere(where, (whereSql, whereArray) => {
-
             formatValuesUpdate(values, (updateSql, valuesArray) => {
                 let sql = 'UPDATE ' + table + updateSql + whereSql;
-
                 pool.query(sql, valuesArray.concat(whereArray), (error, results, fields) => {
                     next(results, error);
                 });
             });
         });
+    }
 
+
+    /**
+     * Delete the rows in table, according to where parameter
+     * @param where     an object on the form (example) :  {field1: value1, field2: value2}
+     *                      where field is an attribute/field of the table and value is its value.
+     *          this example will give : " ... WHERE field1 = value1 AND field2 = value2"
+     *
+     *   ===>  give an empty object {} if you don't want a WHERE clause
+     *
+     * @param next   the callback function when the query is done : (res, err) => {};
+     *                  if err is NOT empty, this means the query failed.
+     */
+    model.delete = (where, next) => {
+        formatWhere(where, (whereSql, whereArray) => {
+            let sql = 'DELETE FROM ' + table + whereSql;
+            pool.query(sql, whereArray, (error, results, fields) => {
+                next(results, error);
+            });
+        });
     }
 
 
     return model;
 }
-;
+
 
