@@ -46,11 +46,11 @@ app.get('/', function (req, res, next) {
 
 
 /* Static files */
-app.use(express.static(path.join(__dirname, 'public')));    // sources for the frontend
+app.use(express.static(path.join(__dirname, 'public')));    // Sources for the frontend
 app.use(express.static(path.join(__dirname, 'userspublic')));   // Files from users that can be accessed by anyone
 
 
-/*  Loads the routes for all ressources */
+/*  Loads the routes for all resources */
 var routes = require('./routes');
 app.use('/', routes);
 

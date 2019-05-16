@@ -83,11 +83,14 @@ fileSaving.mkdir = (path, callback) => {
  *                                                         ]
  */
 fileSaving.deleteFiles = (files) => {
-    files.forEach((file) => {
-        fs.unlink(file.path, (err) => {
-            if (err) throw err;
+    if (typeof files != 'undefined') {
+        files.forEach((file) => {
+            fs.unlink(file.path, (err) => {
+                if (err) throw err;
+            });
         });
-    });
+    }
+
 }
 
 /**

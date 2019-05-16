@@ -3,7 +3,6 @@ var router = express.Router();
 
 const storyArcActions = require (appRoot + '/actions/story-arcs');
 const auth = require (appRoot + '/actions/auth');
-
 const fileSaving = require(appRoot + '/helpers/file-saving');
 
 

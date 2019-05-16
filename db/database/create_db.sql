@@ -24,7 +24,7 @@ CREATE TABLE users(
 
 CREATE TABLE story_arc(
     id_story_arc INTEGER NOT NULL AUTO_INCREMENT,
-    title_story_arc VARCHAR(256),
+    title_story_arc VARCHAR(256) NOT NULL,
     description_story_arc TEXT(65000),
     image_story_arc VARCHAR(1024),
     id_user INTEGER NOT NULL,

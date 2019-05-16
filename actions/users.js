@@ -50,7 +50,7 @@ users.addUser = (req, res, next) => {
 
             /* Creates the user */
             model.create(req.body, {}, (results, error) => {
-                if (!error) { /* Success */
+                if (!error && results.affectedRows != 0) { /* Success */
                     res.status(201).json({'id_user': results.insertId});
                 } else {
                     if (error.code == 'ER_DUP_ENTRY') { /* Database error */
