@@ -39,10 +39,10 @@ app.use(bodyParser.json()); // for parsing application/json
 app.use(bodyParser.urlencoded({extended: true})); // for parsing application/x-www-form-urlencoded
 
 
-/* Homepage */
+/*/!* Homepage *!/
 app.get('/', function (req, res, next) {
     res.send('Homepage');
-});
+});*/
 
 
 /* Static files */
