@@ -1,4 +1,4 @@
-const errorAction = require(appRoot + '/actions/errors');
+const errorAction = require(appRoot + '/helpers/errors');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const modelUser = require(appRoot + '/db/models/Model')('users');

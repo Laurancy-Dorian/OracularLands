@@ -4,14 +4,15 @@ var router = express.Router();
 const storyArcActions = require (appRoot + '/actions/story-arcs');
 const auth = require (appRoot + '/actions/auth');
 
-const fileSaving = require(appRoot + '/middlewares/file-saving');
+const fileSaving = require(appRoot + '/helpers/file-saving');
+
 
 /**
  *  Routes of this ressource
  */
 router.route('/')
     .get(storyArcActions.listStoryArcs)
-    .post(auth.validateToken, fileSaving.set('/tmp', 'img'), storyArcActions.addStoryArc);
+    .post(auth.validateToken, fileSaving.setMulter(), storyArcActions.addStoryArc);
 
 router.route('/:idStoryArc')
     .get(function (req, res, next) {

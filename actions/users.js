@@ -1,6 +1,6 @@
 const table = 'users';
 const model = require(appRoot + '/db/models/Model')(table);
-const errorAction = require(appRoot + '/actions/errors');
+const errorAction = require(appRoot + '/helpers/errors');
 const bcrypt = require('bcrypt');
 const auth = require(appRoot + '/actions/auth');
 

@@ -1,8 +1,11 @@
 const table = 'story_arc';
 const model = require(appRoot + '/db/models/Model')(table);
-const errorAction = require(appRoot + '/actions/errors');
+const errorAction = require(appRoot + '/helpers/errors');
 const auth = require(appRoot + '/actions/auth');
 
+const fileSaving = require(appRoot + '/helpers/file-saving');
+
+const imagesFolder = './userspublic/story-arcs-images/';
 
 
 const storyArcs = {};
@@ -16,13 +19,15 @@ storyArcs.listStoryArcs = (req, res, next) => {
         res.json(results);
     });
 }
-// TODO
+
 /**
  * Creates a new storyArc
  */
 storyArcs.addStoryArc = (req, res, next) => {
     console.log(req.files)
-    res.end();
+
+    fileSaving.moveFiles(req.files,imagesFolder + req.dataToken.user.pseudo_user, () => res.status(201).end());
+
 }
 
 module.exports = storyArcs;

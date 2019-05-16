@@ -1,7 +1,8 @@
 node_modules/*
 .idea/*
-./userdocuments/*
+userdocuments/*
 config/*
 config/config
 config/db
 tmp/*
+userspublic/*
