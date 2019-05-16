@@ -1,3 +1,5 @@
+const util = require (appRoot + '/helpers/util');
+
 /**
  * Creates the string for SQL WHERE
  * ==> "WHERE field = value AND field2 = value2 ..."
@@ -170,14 +172,19 @@ module.exports = (table) => {
      *                  if err is NOT empty, this means the query failed.
      */
     model.update = (values, where, next) => {
-        formatWhere(where, (whereSql, whereArray) => {
-            formatValuesUpdate(values, (updateSql, valuesArray) => {
-                let sql = 'UPDATE ' + table + updateSql + whereSql;
-                pool.query(sql, valuesArray.concat(whereArray), (error, results, fields) => {
-                    next(results, error);
+        if (!util.isObjectEmpty(values)) {
+            formatWhere(where, (whereSql, whereArray) => {
+                formatValuesUpdate(values, (updateSql, valuesArray) => {
+                    let sql = 'UPDATE ' + table + updateSql + whereSql;
+                    pool.query(sql, valuesArray.concat(whereArray), (error, results, fields) => {
+                        next(results, error);
+                    });
                 });
             });
-        });
+        } else {
+            next ([]);
+        }
+
     }
 
 

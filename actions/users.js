@@ -25,6 +25,7 @@ users.addUser = (req, res, next) => {
 
     /* Check the input */
     if (!req.body.pseudo_user || !req.body.password_user || !req.body.email_user) {
+        console.log(req.body)
         errors.addErrorMessage('40001', "Bad Request - Your request is missing parameters");
     }
     if (req.body.pseudo_user && req.body.pseudo_user.length < 4) {

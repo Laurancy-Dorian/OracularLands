@@ -1,7 +1,7 @@
 const util = {};
 
 util.isObjectEmpty = (obj) => {
-    return Object.keys(obj).length;
+    return Object.keys(obj).length == 0;
 }
 
 util.toTitleCase = (str) => {

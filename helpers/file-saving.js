@@ -22,7 +22,7 @@ fileSaving.setMulter = (path) => {
         }
     });
 
-    return multer({storage: storage}).any();
+    return multer({storage: storage});
 }
 
 /**
@@ -46,7 +46,6 @@ fileSaving.moveFiles = (files, dest, callback) => {
         files.forEach((file) => {
             // dest will be created or overwritten
             fs.copyFile(file.path, dest + '/' + file.filename, (err) => {
-                if (err) throw err;
                 fileSaving.deleteFiles([file]);    // Removes the file from tmp
                 if (callback) {
                     callback();
@@ -65,7 +64,6 @@ fileSaving.moveFiles = (files, dest, callback) => {
 fileSaving.mkdir = (path, callback) => {
     // Creates /tmp/a/apple, regardless of whether `/tmp` and /tmp/a exist.
     fs.mkdir(path, { recursive: true }, (err) => {
-        if (err) throw err;
         if (callback) {
             callback();
         }
@@ -85,12 +83,9 @@ fileSaving.mkdir = (path, callback) => {
 fileSaving.deleteFiles = (files) => {
     if (typeof files != 'undefined') {
         files.forEach((file) => {
-            fs.unlink(file.path, (err) => {
-                if (err) throw err;
-            });
+            fs.unlink(file.path, (err) => {});
         });
     }
-
 }
 
 /**
