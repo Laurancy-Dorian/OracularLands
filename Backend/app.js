@@ -29,6 +29,19 @@ global.pool = require('./db/initDB');
  */
 var app = express();
 
+/* Allow Cors */
+/* DEV ONLY */
+const cors = require('cors')
+app.use(cors())
+
+/* Defines response headers */
+app.use((req, res, next) => {
+    //res.header("Access-Control-Allow-Origin", "*");
+    //res.header("Access-Control-Allow-Headers", 'Origin, Accept, Content-Type, Authorization, Access-Control-Allow-Origin');
+    next();
+
+})
+
 app.use(logger('dev'));
 
 app.use(express.json());

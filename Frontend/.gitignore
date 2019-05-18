@@ -1,11 +1,3 @@
-Backend/node_modules/*
-.idea/*
-Backend/userdocuments/*
-Backend/config/*
-Backend/config/config
-Backend/config/db
-Backend/tmp/*
-Backend/userspublic/*
 .DS_Store
 node_modules/
 /dist/

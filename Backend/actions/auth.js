@@ -104,12 +104,12 @@ auth.login = (req, res, next) => {
                     });
                 } else {
                     errors.addErrorMessage('40007', 'Invalid password');
-                    errors.sendErrors(res, 403);
+                    errors.sendErrors(res, 400);
                 }
             });
         } else {
             errors.addErrorMessage('40006', 'Invalid username');
-            errors.sendErrors(res, 403);
+            errors.sendErrors(res, 400);
         }
     });
 }
