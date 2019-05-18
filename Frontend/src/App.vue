@@ -1,9 +1,10 @@
 <template>
   <div id="app">
+    <div v-if="loading" class="loading">Loading&#8230;</div>
 
     <div id="main" class="main">
       <Menu></Menu>
-      <router-view></router-view>
+      <router-view @loading-on="startLoadingAnimation"  @loading-off="endLoadingAnimation"></router-view>
     </div>
 
     <footer id="footer" class="tm-footer row tm-mt-small">
@@ -23,12 +24,18 @@ export default {
   name: 'App',
   data: function() {
     return {
-
+      loading: false
+    }
+  },
+  methods: {
+    startLoadingAnimation: function() {
+      this.loading = true;
+    },
+    endLoadingAnimation: function() {
+      this.loading = false;
     }
   }
+
 }
 </script>
 
-<style src="./assets/css/bootstrap.min.css"></style>
-<style src="./assets/css/fontawesome.min.css"></style>
-<style src="./assets/css/oracularlands.css"></style>

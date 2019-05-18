@@ -31,8 +31,9 @@ auth.getToken = (req, res, next) => {
     } else {
         /* Forbidden */
         let errors = errorAction();
-        errors.addErrorMessage('40301', 'Forbidden - Header Authorization is not defined');
-        errors.sendErrors(res, 403);
+        res.setHeader('WWW-Authenticate', 'Bearer realm=""')
+        errors.addErrorMessage('40101', 'Unauthorized - Header Authorization is not defined');
+        errors.sendErrors(res, 401);
     }
 }
 
@@ -50,8 +51,9 @@ auth.verifyToken = (req, res, next) => {
     }
     jwt.verify(req.token, config.jwtSecret, (err, data) => {
         if (err) {
-            errors.addErrorMessage('40302', 'Forbidden - Invalid token');
-            errors.sendErrors(res, 403);
+            res.setHeader('WWW-Authenticate', 'Bearer realm=""')
+            errors.addErrorMessage('40102', 'Unauthorized - Invalid token');
+            errors.sendErrors(res, 401);
         }
         else {
             next(data);
@@ -100,7 +102,10 @@ auth.login = (req, res, next) => {
                     }
                     // Creates the token
                     jwt.sign({user}, config.jwtSecret, (err, token) => {
-                        res.json({token});
+                        res.json({
+                            user,
+                            token
+                        });
                     });
                 } else {
                     errors.addErrorMessage('40007', 'Invalid password');
