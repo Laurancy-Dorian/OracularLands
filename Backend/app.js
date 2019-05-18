@@ -34,13 +34,7 @@ var app = express();
 const cors = require('cors')
 app.use(cors())
 
-/* Defines response headers */
-app.use((req, res, next) => {
-    //res.header("Access-Control-Allow-Origin", "*");
-    //res.header("Access-Control-Allow-Headers", 'Origin, Accept, Content-Type, Authorization, Access-Control-Allow-Origin');
-    next();
 
-})
 
 
 app.use(logger('dev'));
@@ -57,8 +51,11 @@ app.use(bodyParser.urlencoded({extended: true})); // for parsing application/x-w
 app.use(express.static(path.join(__dirname, 'public')));    // Sources for the frontend
 app.use(express.static(path.join(__dirname, 'userspublic')));   // Files from users that can be accessed by anyone
 
+
 /**
- * Il we are
+ * If the request has the custom header 'oracular-lands-data', then we continue the routes
+ * If this header is not here, this means the user doesn't have the frontend of the app, then we send it
+ * The frontend will then make all its requests with this header
  */
 app.use((req, res, next) => {
     if (req.headers['oracular-lands-data']) {
@@ -67,6 +64,13 @@ app.use((req, res, next) => {
         res.sendFile(__dirname + "/public/index.html");
     }
 });
+
+/* Defines global response headers */
+app.use((req, res, next) => {
+    //res.header("Access-Control-Allow-Origin", "*");
+    //res.header("Access-Control-Allow-Headers", 'Origin, Accept, Content-Type, Authorization, Access-Control-Allow-Origin');
+    next();
+})
 
 /*  Loads the routes for all resources */
 var routes = require('./routes');

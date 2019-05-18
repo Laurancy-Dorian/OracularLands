@@ -16,10 +16,9 @@ html {
 }
 
 body {
-    font-family: Roboto, Helvetica, Arial, sans-serif;
-    font-weight: 100;
-    background-color: #f6f0ea;
+    background-color: #fff;
     overflow-x: hidden;
+  color:#000;
 }
 
 #main {
@@ -29,12 +28,12 @@ body {
 
 a {
     transition: all 0.3s ease;
-    color: #f5a623;
+    color: #b90000;
 }
 
 a:focus,
 a:hover {
-    color: #f3ca86;
+    color: #380B0B;
     text-decoration: none;
 }
 
@@ -57,13 +56,12 @@ button:focus {
     text-transform: uppercase;
     font-size: 1.5rem;
     font-weight: 700;
-    color: #fff;
+    color: #000;
 }
 
 .navbar {
-    height: 70px;
-    background-color: #2C1F1A;
-    font-size: 100%;
+    background-color: #fff;
+    color: #000;
     padding: 0;
     margin-bottom: 10px;
 }
@@ -94,9 +92,9 @@ button:focus {
 
 .tm-block {
     padding: 40px;
-    -webkit-box-shadow: 1px 1px 5px 0 #2C1F1A;
-    -moz-box-shadow: 1px 1px 5px 0 #2C1F1A;
-    box-shadow: 1px 1px 5px 0 #2C1F1A;
+    -webkit-box-shadow: 1px 0.5px 4px 0 #000;
+    -moz-box-shadow: 1px 0.5px 4px 0 #000;
+    box-shadow: 1px 0.5px 4px 0 #000;
     min-height: 350px;
 /*    height: 100%;*/
     max-height: 450px;
@@ -128,12 +126,13 @@ button:focus {
 .tm-block-title {
     font-size: 1.1rem;
     font-weight: 700;
-    color: #fff;
+    color: #000;
     margin-bottom: 30px;
 }
 
 .nav-link {
-    color: #fff;
+    background:#fff;
+    color:#000;
     height: 100%;
     display: flex;
     align-items: center;
@@ -155,41 +154,44 @@ button:focus {
 
 .dropdown-menu {
     font-size: 90%;
-    color: #fff;
-    background-color: #2C1F1A;
+    color: #000;
+    background-color: #fff;
     border-radius: 0;
     padding-top: 10px;
     padding-bottom: 10px;
     min-width: auto;
+    border-right: 1px solid #000!important;
+    border-left: 1px solid #000!important;
+
 }
 .dropdown-menu span {
     padding-left:10px;
 }
 
 .dropdown-item {
-    color: #fff;
+    color: #000;
     padding: 15px 30px;
 }
 
 .navbar-nav .active > .nav-link,
 .navbar-nav .nav-link.active, .router-link-exact-active, .router-link-active {
-    color: #f3ca86;
+    color: #b90000;
 }
 
 .navbar-nav .nav-link.active i {
-    color: #f3ca86;
+    color: #b90000;
 }
 
 .dropdown-item:focus,
 .dropdown-item:hover {
     background-color: transparent;
-    color: #f5a623!important;
+    color: #b90000!important;
     cursor:pointer;
 }
 
 .navbar-nav a:hover,
 .navbar-nav a:hover i {
-    color: #f5a623!important;
+    color: #b90000!important;
 }
 
 .nav-item {
@@ -209,11 +211,6 @@ button:focus {
     border: 0;
 }
 
-.tm-content-row {
-    justify-content: center;
-    margin-left: -20px;
-    margin-right: -20px;
-}
 
 .tm-col {
     padding-left: 20px;
@@ -255,7 +252,7 @@ button:focus {
 }
 
 .tm-notification-link {
-    color: #f5a623;
+    color: #b90000;
 }
 
 .tm-text-color-secondary {
@@ -267,20 +264,13 @@ button:focus {
 }
 
 .table {
-    background-color: #44392e;
-    color: #fff;
+    color: #000;
     font-size: 85%;
     margin-bottom: 0;
 }
 
-thead {
-    background-color: #2C1F1A;
-    color: #fff;
-}
 
-.table thead th {
-    border-bottom: 0;
-}
+
 
 .tm-status-circle {
     display: inline-block;
@@ -352,20 +342,17 @@ thead {
 }
 
 .form-control {
-    background-color: #755f4b;
-    color: #fff;
-    border: 0;
+    color: #000;
+    border: 1px solid rgba(44, 31, 26, 0.5);
 }
 
 .form-control:focus {
-    background-color: #997c61;
-    color: #fff;
     border-color: transparent;
     box-shadow: 0 0 0 0.1rem rgba(44, 31, 26, 0.5);
 }
 
 .form-group label {
-    color: #fff;
+    color: #000;
     margin-bottom: 10px;
 }
 
@@ -406,8 +393,6 @@ thead {
 
 .form-control {
     padding: 19px 18px;
-    border-radius: 0;
-    height: 50px;
 }
 
 .form-group {
@@ -415,7 +400,6 @@ thead {
 }
 
 .btn {
-    border-radius: 0;
     padding: 13px 28px;
     transition: all 0.2s ease;
     max-width: 100%;
@@ -427,26 +411,38 @@ thead {
 
 .btn-primary {
     color: #fff;
-    background-color: #2C1F1A;
-    border: 2px solid #2C1F1A;
+    background-color: #380B0b;
+    border: 2px solid #380B0b;
     font-size: 90%;
     font-weight: 600;
 }
 
 .btn-primary:active,
 .btn-primary:hover {
-    color: #e8be78;
+    color: #721717;
     background-color: transparent;
-    border: 2px solid #e8be78;
+    border: 2px solid #721717;
 }
 
 .btn-primary:not(:disabled):not(.disabled).active, .btn-primary:not(:disabled):not(.disabled):active, .show > .btn-primary.dropdown-toggle {
-    background: #755f4b;
-    border-color: #755f4b;
+    background: #380B0b;
+    border-color: #380B0b;
 }
 
 .btn-primary.focus, .btn-primary:focus {
     box-shadow: 0 0 0 0.2rem rgba(117, 95, 75, .5);
+}
+
+.btn-secondary {
+  color: #fff;
+  background-color: #586069;
+  border: 2px solid #586069;
+  font-size: 90%;
+  font-weight: 600;
+}
+
+btn-secondary:hover {
+  background-color: #909dab;
 }
 
 .custom-file-input {
@@ -459,8 +455,7 @@ thead {
 
 .table td,
 .table th {
-    border-top: 1px solid #63564b;
-    padding: 15px 25px;
+    border-top: 1px solid #000;
     vertical-align: middle;
 }
 
@@ -475,11 +470,11 @@ thead {
 }
 
 .table-hover tbody tr:hover {
-    color: #BBB;
+    color: #777;
 }
 
 .tm-bg-primary-dark {
-    background-color: #473c32;
+    background-color: #fff;
 }
 
 .tm-bg-gray {
@@ -506,7 +501,7 @@ thead {
 
 .page-link,
 .page-link:hover {
-    color: #000;
+    color: #721717;
 }
 
 .page-item {
@@ -524,22 +519,22 @@ thead {
 }
 
 input[type="checkbox"] {
-    cursor: pointer;
-    -webkit-appearance: none;
-    appearance: none;
-    background-color: #755f4b;
-    background-position: center;
-    border-radius: 25%;
-    box-sizing: border-box;
-    position: relative;
-    box-sizing: content-box;
-    width: 24px;
-    height: 24px;
-    transition: all 0.1s linear;
+  cursor: pointer;
+  -webkit-appearance: none;
+  appearance: none;
+  background-color: #CCC;
+  background-position: center;
+  border-radius: 25%;
+  box-sizing: border-box;
+  position: relative;
+  box-sizing: content-box;
+  width: 24px;
+  height: 24px;
+  transition: all 0.1s linear;
 }
 
 input[type="checkbox"]:checked {
-    background: url(../img/check-mark.png) #66513e center no-repeat;
+    background: url(../img/check-mark.png) #380b0b center no-repeat;
 }
 
 input[type="checkbox"]:focus {
@@ -561,9 +556,6 @@ input[type="checkbox"]:focus {
     overflow-y: scroll;
 }
 
-.tm-product-table tr {
-    font-weight: 600;
-}
 
 .tm-product-name {
     font-size: 0.95rem;
@@ -578,7 +570,7 @@ input[type="checkbox"]:focus {
 .tm-product-delete-link {
     padding: 10px;
     border-radius: 50%;
-    background-color: #755f4b;
+    background-color: #380b0b;
     display: inline-block;
     width: 40px;
     height: 40px;
@@ -622,13 +614,10 @@ input[type="checkbox"]:focus {
 }
 
 .tm-footer {
-    background-color: #2C1F1A;
+    background-color: #fff;
     padding-top: 5px;
     padding-bottom: 5px;
     height: 30px;
-    -webkit-box-shadow: 0 -3px 5px 0 rgba(68, 57, 46, 0.59);
-    -moz-box-shadow: 0 -3px 5px 0 rgba(68, 57, 46, 0.59);
-    box-shadow: 0 -3px 5px 0 rgba(68, 57, 46, 0.59);
 }
 
 .custom-select {
@@ -675,8 +664,7 @@ input[type="checkbox"]:focus {
 }
 
 .navbar-toggler {
-    border-color: #2C1F1A;
-    border-radius: 0;
+    border-color: transparent;
     padding: 10px 15px;
     transition: all 0.2s ease;
 }
@@ -687,7 +675,7 @@ input[type="checkbox"]:focus {
 }
 
 .tm-nav-icon {
-    color: #fff;
+    color: #000;
 }
 
 .navbar-toggler:hover .tm-nav-icon {
@@ -700,15 +688,15 @@ input[type="checkbox"]:focus {
 }
 
 ::-webkit-scrollbar-track {
-    background: #6d5846;
+    background: transparent;
 }
 
 ::-webkit-scrollbar-thumb {
-    background: #2C1F1A;
+    background: #380B0b;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-    background: #42352a;
+    background: #b90000;
 }
 
 .tm-footer-link {
@@ -734,6 +722,8 @@ input[type="checkbox"]:focus {
 @media (min-width: 992px) {
     .navbar-expand-lg .navbar-nav .nav-link {
         padding: 15px 20px;
+        border-right:1px solid;
+       border-left:1px solid;
     }
 }
 
@@ -767,11 +757,17 @@ input[type="checkbox"]:focus {
 
     .dropdown-menu {
         text-align: center;
+        border-right: 1px solid #fff!important;
+        border-left: 1px solid #fff!important;
+      border-bottom: 1px solid #fff!important;
     }
 
     .nav-link {
-        color: #fff;
-        background-color: #2C1F1A;
+        border-right:1px solid;
+        border-left: 1px solid;
+      border-bottom:1px solid;
+        color: #000;
+        background-color: #fff;
         padding: 15px;
         flex-direction: row;
     }
@@ -881,7 +877,7 @@ input[type="checkbox"]:focus {
     }
 }
 
-@media (min-width: 1200px) {
+/*@media (min-width: 1200px) {
     .container {
         max-width: 85%;
     }
@@ -891,7 +887,7 @@ input[type="checkbox"]:focus {
     .container {
         max-width: 85%;
     }
-}
+}*/
 
 
 /* Absolute Center Spinner */
@@ -1032,6 +1028,7 @@ button:hover:disabled{
   color: #fff;
   background-color: #721c24;
 }
+
 
 /*
 #main {
