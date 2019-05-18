@@ -1,5 +1,6 @@
 <template>
-  <div> Register</div>
+  <div>Story Arcs</div>
+
 </template>
 
 <script>

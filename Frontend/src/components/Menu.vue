@@ -1,7 +1,7 @@
 <template>
   <nav class="navbar navbar-expand-xl">
     <div class="container h-100">
-      <router-link to="/" class="navbar-brand" >
+      <router-link to="/" class="navbar-brand" id="title-website">
         <h1 class="tm-site-title mb-0">Oracular &nbsp; Lands</h1>
       </router-link>
 
@@ -18,7 +18,7 @@
 
           <!-- Sessions -->
           <li v-if="user_connected" class="nav-item">
-            <router-link to="/sessions-playing" class="nav-link active" >
+            <router-link :to="{name: 'SessionsPlaying'}" class="nav-link">
               <i class="fas fa-dice"></i>
               Sessions
             </router-link>
@@ -26,7 +26,7 @@
 
           <!--Story Arcs-->
           <li class="nav-item">
-            <router-link to="/story-arcs" class="nav-link">
+            <router-link :to="{name: 'StoryArcs'}" class="nav-link">
               <i class="fas fa-book"></i>
               Arcs Narratifs
             </router-link>
@@ -34,7 +34,7 @@
 
           <!--Users-->
           <li class="nav-item">
-            <router-link to="/users" class="nav-link">
+            <router-link :to="{name: 'Users'}" class="nav-link">
               <i class="fas fa-users"></i>
               Utilisateurs
             </router-link>
@@ -52,9 +52,9 @@
               </div>
             </a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <router-link v-bind:to="'/users/' + id_user + '/story-arcs'" class="dropdown-item" ><i class="fas fa-book"></i><span>Arcs Narratifs</span></router-link>
-              <router-link v-bind:to="'/users/' + id_user + '/sessions'" class="dropdown-item"><i class="fas fa-dice"></i><span>Sessions</span></router-link>
-              <router-link to="/folders" class="dropdown-item"><i class="fas fa-folder-open"></i><span>Documents</span></router-link>
+              <router-link :to="{name: 'StoryArcsByUser', params: {id_user}}" class="dropdown-item" ><i class="fas fa-book"></i><span>Arcs Narratifs</span></router-link>
+              <router-link :to="{name: 'Sessions'}" class="dropdown-item"><i class="fas fa-dice"></i><span>Sessions</span></router-link>
+              <router-link :to="{name: 'Folders'}" class="dropdown-item"><i class="fas fa-folder-open"></i><span>Documents</span></router-link>
             </div>
           </li>
         </ul>
@@ -73,14 +73,14 @@
 
             </a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <router-link to="/account" class="dropdown-item" ><i class="fa fa-cog"></i><span>Profil</span></router-link>
+              <router-link :to="{name: 'Account'}" class="dropdown-item" ><i class="fa fa-cog"></i><span>Profil</span></router-link>
               <a class="dropdown-item" @click="signout"><i class="fas fa-sign-out-alt"></i><span>Déconnexion</span></a>
             </div>
 
           </li>
 
           <li v-show="!user_connected" class="nav-item">
-            <router-link to="/auth" class="nav-link">
+            <router-link :to="{name: 'Login'}" class="nav-link">
               <i class="far fa-user"></i>
               <span>Se connecter</span>
             </router-link>

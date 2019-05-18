@@ -1,5 +1,6 @@
 <template>
-  <div> Register</div>
+  <div>Sessions Playing</div>
+
 </template>
 
 <script>

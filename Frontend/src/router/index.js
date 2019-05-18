@@ -27,25 +27,66 @@ export default new Router({
   mode: 'history',
   routes: [
     {
-      path: '/',
-      name: 'home',
-      component: require ('../components/auth/register').default
-    },
-    {
       path: '/auth',
       name: 'Login',
-      component: require ('../components/auth/login').default,
+      component: require('../components/auth/login').default,
       beforeEnter: ifNotAuthenticated
     },
     {
       path: '/users/new',
       name: 'Register',
-      component: require ('../components/auth/register').default
+      component: require('../components/auth/register').default,
+      beforeEnter: ifNotAuthenticated
     },
     {
       path: '/account',
       name: 'Account',
-      component: require ('../components/auth/register').default,
+      component: require('../components/Users/Details-users').default,
+      beforeEnter: ifAuthenticated
+    },
+    {
+      path: '/story-arcs',
+      name: 'StoryArcs',
+      component: require('../components/story-arcs/Story-arcs').default,
+      alias: ''
+    },
+    {
+      path: '/story-arcs/:id(\\d+)',
+      name: 'StoryArcsDetails',
+      component: require('../components/story-arcs/Details-story-arcs').default,
+    },
+    {
+      path: '/users/:id_user(\\d+)/story-arcs',
+      name: 'StoryArcsByUser',
+      component: require('../components/story-arcs/Details-story-arcs').default,
+    },
+    {
+      path: '/users',
+      name: 'Users',
+      component: require('../components/users/Users').default,
+    },
+    {
+      path: '/users/:id(\\d+)',
+      name: 'UsersDetails',
+      component: require('../components/Users/Details-users').default,
+      beforeEnter: ifAuthenticated
+    },
+    {
+      path: '/sessions-playing',
+      name: 'SessionsPlaying',
+      component: require('../components/sessions/Sessions').default,
+      beforeEnter: ifAuthenticated
+    },
+    {
+      path: '/sessions',
+      name: 'Sessions',
+      component: require('../components/sessions/Sessions').default,
+      beforeEnter: ifAuthenticated
+    },
+    {
+      path: '/folders',
+      name: 'Folders',
+      component: require('../components/folders/Folders').default,
       beforeEnter: ifAuthenticated
     },
     {

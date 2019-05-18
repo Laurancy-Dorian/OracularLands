@@ -1,5 +1,6 @@
 <template>
-  <div> Register</div>
+  <div>Users</div>
+
 </template>
 
 <script>

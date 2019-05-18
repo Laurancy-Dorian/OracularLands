@@ -1,6 +1,6 @@
 {
   "name": "frontend-oracular-lands",
-  "version": "1.0.0",
+  "version": "1.0.5",
   "description": "Oracular Lands frontend in vue.js",
   "author": "Laurancy Dorian <laurancy.dorian@gmail.com>",
   "private": true,

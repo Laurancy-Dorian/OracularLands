@@ -172,23 +172,24 @@ button:focus {
 }
 
 .navbar-nav .active > .nav-link,
-.navbar-nav .nav-link.active {
-    background-color: #56300b;
-    color: #fff;
+.navbar-nav .nav-link.active, .router-link-exact-active, .router-link-active {
+    color: #f3ca86;
 }
 
 .navbar-nav .nav-link.active i {
-    color: #fff;
+    color: #f3ca86;
 }
 
 .dropdown-item:focus,
 .dropdown-item:hover {
-    background-color: #56300c;
+    background-color: transparent;
+    color: #f5a623!important;
+    cursor:pointer;
 }
 
 .navbar-nav a:hover,
 .navbar-nav a:hover i {
-    color: #f5a623;
+    color: #f5a623!important;
 }
 
 .nav-item {
@@ -1023,6 +1024,14 @@ button:hover:disabled{
 
 }
 
+#title-website {
+  background: transparent!important;
+}
+
+.alert-danger {
+  color: #fff;
+  background-color: #721c24;
+}
 
 /*
 #main {

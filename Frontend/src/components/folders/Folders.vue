@@ -1,5 +1,6 @@
 <template>
-  <div> Register</div>
+  <div>Folders</div>
+
 </template>
 
 <script>
