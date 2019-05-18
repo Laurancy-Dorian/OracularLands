@@ -5,6 +5,7 @@ Vue.use(Vuex);
 
 
 
+
 /**
  * Store for managing the authentification and session
  */
@@ -29,7 +30,7 @@ const actions = {
           const token = resp.data.token
           localStorage.setItem('user-token', token) // store the token in localstorage
           localStorage.setItem('user', JSON.stringify(resp.data.user)) // store the token in localstorage
-
+          Vue.http.headers.common['Authorization'] = 'Bearer ' + token
 
           commit('AUTH_SUCCESS', token)
           // you have your token, now log in your user :)
@@ -49,8 +50,7 @@ const actions = {
       commit('AUTH_LOGOUT')
       localStorage.removeItem('user-token') // clear your user's token from localstorage
       localStorage.removeItem('user') // clear your user's details from localstorage
-
-      Vue.$http.headers.common['Access-Control-Allow-Headers'] = null
+      delete Vue.http.headers.common['Authorization'];
       resolve()
     })
   }
@@ -68,6 +68,10 @@ const mutations = {
   },
   AUTH_ERROR: (state) => {
     state.status = 'error'
+  },
+  AUTH_LOGOUT: (state, token) => {
+    state.status = 'loggedout'
+    state.token = null
   },
 }
 

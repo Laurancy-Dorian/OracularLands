@@ -45,12 +45,11 @@
                   </button>
 
                 </div>
-                <button class="mt-5 btn btn-primary btn-block text-uppercase">
-                  Mot de passe oublié ?
-                </button>
-
 
               </form>
+              <router-link to="/forgot-password" class="mt-5 btn btn-primary btn-block text-uppercase">
+                Mot de passe oublié ?
+              </router-link>
 
             </div>
           </div>
@@ -59,9 +58,9 @@
     </div>
     <div class="row">
       <div class="col-12 mx-auto tm-login-col">
-        <a href="/users/new" class="mt-5 btn btn-primary btn-block text-uppercase">
+        <router-link to="/users/new" class="mt-5 btn btn-primary btn-block text-uppercase">
           Inscription
-        </a>
+        </router-link>
       </div>
     </div>
   </div>
@@ -77,7 +76,7 @@
         pseudo_user: '',
         password_user: '',
         loading: false,
-        message_alert: ""
+        message_alert: "",
       }
     },
     computed: {
@@ -86,7 +85,7 @@
       }
     },
     mounted : function() {
-      authStore.watch(() => {
+      this.watch_store = authStore.watch(() => {
         if (authStore.getters.authStatus == 'loading') {  // Displays an animation on loading
           this.$emit('loading-on')
         } else {

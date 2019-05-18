@@ -4,9 +4,6 @@ import Vue from 'vue'
 import router from './router'
 import vueRessource from 'vue-resource'
 
-/* Stores */
-import authStore from './stores/authStore'
-
 
 Vue.config.productionTip = true
 
@@ -50,6 +47,9 @@ const token = localStorage.getItem('user-token')
 if (token) {
   Vue.http.headers.common['Authorization'] = 'Bearer ' + token
 }
+
+/* Stores */
+const authStore = require('./stores/authStore').default;
 
 const App = require('./App').default
 /* eslint-disable no-new */
