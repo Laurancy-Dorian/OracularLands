@@ -42,6 +42,7 @@ app.use((req, res, next) => {
 
 })
 
+
 app.use(logger('dev'));
 
 app.use(express.json());
@@ -52,16 +53,20 @@ app.use(bodyParser.json()); // for parsing application/json
 app.use(bodyParser.urlencoded({extended: true})); // for parsing application/x-www-form-urlencoded
 
 
-/*/!* Homepage *!/
-app.get('/', function (req, res, next) {
-    res.send('Homepage');
-});*/
-
-
 /* Static files */
 app.use(express.static(path.join(__dirname, 'public')));    // Sources for the frontend
 app.use(express.static(path.join(__dirname, 'userspublic')));   // Files from users that can be accessed by anyone
 
+/**
+ * Il we are
+ */
+app.use((req, res, next) => {
+    if (req.headers['oracular-lands-data']) {
+        next('route');
+    } else {
+        res.sendFile(__dirname + "/public/index.html");
+    }
+});
 
 /*  Loads the routes for all resources */
 var routes = require('./routes');

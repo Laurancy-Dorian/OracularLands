@@ -16,6 +16,10 @@ Vue.http.options.root = 'http://localhost:3000'
 Vue.http.headers.common['Access-Control-Allow-Origin'] = '*'
 Vue.http.headers.common['Access-Control-Allow-Headers'] = 'Access-Control-Allow-Methods, Access-Control-Allow-Origin, Origin, Accept, Content-Type'
 
+/* Custom header that indicates that we want data and not the Frontend application */
+Vue.http.interceptors.push((request, next) => {
+  request.headers.set('oracular-lands-data', 'true');
+})
 
 /**
  * HTTP Interceptor : Removes the token from locastorage if the response status is 401 (invalid token)
