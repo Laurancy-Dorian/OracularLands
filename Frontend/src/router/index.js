@@ -30,6 +30,7 @@ export default new Router({
       path: '/auth',
       name: 'Login',
       component: require('../components/auth/login').default,
+      props: true,
       beforeEnter: ifNotAuthenticated
     },
     {

@@ -1,14 +1,11 @@
 <template>
 
-  <div>
-
-
-    <div class="container mt-4">
+  <div class="">
       <div v-if="message" class="alert alert-dark" role="alert">
         {{message}}
       </div>
       <!-- News jumbotron -->
-      <div v-for="st in storyArcs" class="jumbotron text-center hoverable p-1">
+      <div v-for="st in storyArcs" class="div-alternate-background text-center p-1">
 
         <!-- Grid row -->
         <div class="row">
@@ -51,7 +48,7 @@
 
         </div>
         <!-- Grid row -->
-      </div>
+
   </div>
 
   </div>

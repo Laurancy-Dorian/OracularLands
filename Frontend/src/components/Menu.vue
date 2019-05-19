@@ -1,96 +1,96 @@
 <template>
-  <nav class="navbar navbar-expand-xl">
-    <div class="container h-100">
-      <router-link to="/" class="navbar-brand" id="title-website">
-        <h1 class="tm-site-title mb-0">Oracular &nbsp; Lands</h1>
-      </router-link>
+  <nav class="navbar navbar-expand-xl pl-5">
+    <router-link to="/" class="navbar-brand" id="title-website">
+      <h1 class="tm-site-title mb-0">Oracular &nbsp; Lands</h1>
+    </router-link>
 
-      <!-- Burger for burger menu -->
-      <button class="navbar-toggler ml-auto mr-0" type="button" data-toggle="collapse"
-              data-target="#navbarSupportedContent"
-              aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <i class="fa fa-bars tm-nav-icon"></i>
-      </button>
+    <!-- Burger for burger menu -->
+    <button class="navbar-toggler ml-auto mr-0" type="button" data-toggle="collapse"
+            data-target="#navbarToggler"
+            aria-controls="navbarToggler" aria-expanded="false" aria-label="Toggle navigation">
+      <i class="fa fa-bars tm-nav-icon"></i>
+    </button>
 
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <div class="collapse navbar-collapse" id="navbarToggler">
+      <ul class="navbar-nav mr-auto" id="">
 
-        <ul class="navbar-nav mx-auto h-100">
+        <!-- Sessions -->
+        <li v-if="user_connected" class="nav-item">
+          <router-link :to="{name: 'SessionsPlaying'}" class="nav-link">
+            <i class="fas fa-dice"></i>
+            Sessions
+          </router-link>
+        </li>
 
-          <!-- Sessions -->
-          <li v-if="user_connected" class="nav-item">
-            <router-link :to="{name: 'SessionsPlaying'}" class="nav-link">
-              <i class="fas fa-dice"></i>
-              Sessions
-            </router-link>
-          </li>
+        <!--Story Arcs-->
+        <li class="nav-item">
+          <router-link :to="{name: 'StoryArcs'}" class="nav-link">
+            <i class="fas fa-book"></i>
+            Arcs Narratifs
+          </router-link>
+        </li>
 
-          <!--Story Arcs-->
-          <li class="nav-item">
-            <router-link :to="{name: 'StoryArcs'}" class="nav-link">
-              <i class="fas fa-book"></i>
-              Arcs Narratifs
-            </router-link>
-          </li>
+        <!--Users-->
+        <li class="nav-item">
+          <router-link :to="{name: 'Users'}" exact class="nav-link">
+            <i class="fas fa-users"></i>
+            Utilisateurs
+          </router-link>
+        </li>
 
-          <!--Users-->
-          <li class="nav-item">
-            <router-link :to="{name: 'Users'}" exact class="nav-link">
-              <i class="fas fa-users"></i>
-              Utilisateurs
-            </router-link>
-          </li>
+        <!--GM Panel-->
+        <li v-if="user_connected" class="nav-item dropdown">
 
-          <!--GM Panel-->
-          <li v-if="user_connected" class="nav-item dropdown">
-
-            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
-               aria-haspopup="true" aria-expanded="false">
-              <i class="fas fa-dice-d20"></i>
-              <div>
-                <span>Espace MJ</span>
-                <i class="fas fa-angle-down"></i>
-              </div>
-            </a>
-            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <router-link :to="{name: 'StoryArcsByUser', params: {id_user}}" class="dropdown-item" ><i class="fas fa-book"></i><span>Arcs Narratifs</span></router-link>
-              <router-link :to="{name: 'Sessions'}" class="dropdown-item"><i class="fas fa-dice"></i><span>Sessions</span></router-link>
-              <router-link :to="{name: 'Folders'}" class="dropdown-item"><i class="fas fa-folder-open"></i><span>Documents</span></router-link>
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+             aria-haspopup="true" aria-expanded="false">
+            <i class="fas fa-dice-d20"></i>
+            <div>
+              <span>Espace MJ</span>
+              <i class="fas fa-angle-down"></i>
             </div>
-          </li>
-        </ul>
+          </a>
+          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <router-link :to="{name: 'StoryArcsByUser', params: {id_user}}" class="dropdown-item"><i
+              class="fas fa-book"></i><span>Arcs Narratifs</span></router-link>
+            <router-link :to="{name: 'Sessions'}" class="dropdown-item"><i class="fas fa-dice"></i><span>Sessions</span>
+            </router-link>
+            <router-link :to="{name: 'Folders'}" class="dropdown-item"><i
+              class="fas fa-folder-open"></i><span>Documents</span></router-link>
+          </div>
+        </li>
+      </ul>
 
+      <ul class="my-2 navbar-nav my-lg-0">
         <!-- Profile -->
-        <ul  class="navbar-nav mx-auto h-100">
-
-          <li v-if="user_connected" class="nav-item dropdown" role="button" data-toggle="dropdown"
-              aria-haspopup="true" aria-expanded="false">
-            <a class="nav-link dropdown-toggle" href="#">
-              <i class="far fa-user"></i>
-              <div>
-                <span>{{ pseudo_user }}</span>
-                <i class="fas fa-angle-down"></i>
-              </div>
-
-            </a>
-            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <router-link :to="{name: 'Account'}" class="dropdown-item" ><i class="fa fa-cog"></i><span>Profil</span></router-link>
-              <a class="dropdown-item" @click="signout"><i class="fas fa-sign-out-alt"></i><span>Déconnexion</span></a>
+        <li v-if="user_connected" class="nav-item dropdown" role="button" data-toggle="dropdown"
+            aria-haspopup="true" aria-expanded="false">
+          <a class="nav-link dropdown-toggle" href="#">
+            <i class="far fa-user"></i>
+            <div>
+              <span>{{ pseudo_user }}</span>
+              <i class="fas fa-angle-down"></i>
             </div>
 
-          </li>
-
-          <li v-show="!user_connected" class="nav-item">
-            <router-link :to="{name: 'Login'}" class="nav-link">
-              <i class="far fa-user"></i>
-              <span>Se connecter</span>
+          </a>
+          <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+            <router-link :to="{name: 'Account'}" class="dropdown-item"><i class="fa fa-cog"></i><span>Profil</span>
             </router-link>
-          </li>
+            <a class="dropdown-item" @click="signout"><i class="fas fa-sign-out-alt"></i><span>Déconnexion</span></a>
+          </div>
 
-        </ul>
+        </li>
 
+        <li v-show="!user_connected" class="nav-item">
+          <router-link :to="{name: 'Login'}" class="nav-link">
+            <i class="far fa-user"></i>
+            <span>Se connecter</span>
+          </router-link>
+        </li>
 
-      </div>
+      </ul>
     </div>
+
+
   </nav>
 
 </template>

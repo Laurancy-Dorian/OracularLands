@@ -6,6 +6,12 @@
       </div>
     </div>
 
+    <div class="row justify-content-md-center">
+      <div v-if="message_success" class="alert alert-success" role="alert">
+        {{ message_success }}
+      </div>
+    </div>
+
     <div class="row centered-screen">
 
       <div class="col-12 mx-auto tm-login-col">
@@ -71,12 +77,14 @@
   import authStore from '../../stores/authStore' // The auth store
 
   export default {
+    props: ['msg'],
     data: function () {
       return {
         pseudo_user: '',
         password_user: '',
         loading: false,
         message_alert: "",
+        message_success: this.msg || ""
       }
     },
     computed: {
