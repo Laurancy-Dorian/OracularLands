@@ -12,7 +12,7 @@ Vue.use(router)
 
 /* Set the VueRessource for XMLHttpRequest */
 Vue.use(vueRessource)
-//Vue.http.options.root = 'http://localhost:3000'
+Vue.http.options.root = '/'
 Vue.http.headers.common['Access-Control-Allow-Origin'] = '*'
 Vue.http.headers.common['Access-Control-Allow-Headers'] = 'Access-Control-Allow-Methods, Access-Control-Allow-Origin, Origin, Accept, Content-Type'
 
