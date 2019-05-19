@@ -8,7 +8,7 @@ const fileSaving = require(appRoot + '/helpers/file-saving'); /* For saving the 
 const mime = require('mime');
 
 /* Init constant variables */
-const imagesFolder = './userspublic/story-arcs-images/';
+const imagesFolder = appRoot + '/userspublic/story-arcs-images/';
 
 const storyArcs = {};
 
@@ -133,7 +133,7 @@ storyArcs.deleteStoryArc = (req, res, next) => {
     const id_story_arc = req.idStoryArc;
     model.delete({id_story_arc}, (results, error) => {
         if (!error && results.affectedRows != 0) {
-            fileSaving.deleteFiles([{path: './userspublic' + req.storyArcData.image_story_arc}]);
+            fileSaving.deleteFiles([{path: appRoot + '/userspublic' + req.storyArcData.image_story_arc}]);
             res.status(204).end();
         } else {
             errors.addErrorMessage('-1', error.sqlMessage);

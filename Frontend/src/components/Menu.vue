@@ -50,7 +50,7 @@
             </div>
           </a>
           <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <router-link :to="{name: 'StoryArcsByUser', params: {id_user}}" class="dropdown-item"><i
+            <router-link :to="{name: 'Gamemaster.StoryArcs'}" class="dropdown-item"><i
               class="fas fa-book"></i><span>Arcs Narratifs</span></router-link>
             <router-link :to="{name: 'Sessions'}" class="dropdown-item"><i class="fas fa-dice"></i><span>Sessions</span>
             </router-link>

@@ -30,9 +30,9 @@
           <td>{{ s.nbr_players_session }}</td>
           <td>{{ s.status_session }}</td>
           <td>
-            <bouton class="btn btn-primary">
+            <button class="btn btn-primary">
               S'inscrire
-            </bouton>
+            </button>
 
           </td>
         </tr>

@@ -58,6 +58,7 @@
 
 <script>
   export default {
+    props: ['id_user'],
     data() {
       return {
         storyArcs: [],
@@ -66,13 +67,18 @@
       }
     },
     mounted() {
-
-      if (this.$route.params.id_user) {
+      let idUser;
+      if (!this.$route.params.id_user && this.id_user) {
+        idUser = this.id_user
+      } else if (this.$route.params.id_user) {
+        idUser = this.$route.params.id_user
+      }
+      if (idUser) {
         this.$http.get('users/'+ this.$route.params.id_user +'/story-arcs/').then(response => {
           if (response.body.length >0) {
             this.storyArcs = response.body
           } else {
-            this.message = "Cet utilisateur n'a créé aucun arc narratif"
+            this.message = "Aucun arc narratif"
           }
 
 

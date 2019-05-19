@@ -85,10 +85,29 @@ export default new Router({
       beforeEnter: ifAuthenticated
     },
     {
-      path: '/folders',
+      path: '/gm/folders',
       name: 'Folders',
       component: require('../components/folders/Folders').default,
       beforeEnter: ifAuthenticated
+    },
+    {
+      path: '/gm',
+      name: 'Gamemaster',
+      component: require('../components/gm').default,
+      beforeEnter: ifAuthenticated,
+      children: [
+        {
+          path: 'story-arcs',
+          component: require('../components/story-arcs/Gm-story-arcs').default,
+          name: 'Gamemaster.StoryArcs'
+        }, {
+          path: 'story-arcs/new',
+          component: require('../components/story-arcs/Story-arcs-add').default,
+          name: 'Gamemaster.StoryArcsNew'
+        }
+
+
+      ]
     },
     {
       path: '*',

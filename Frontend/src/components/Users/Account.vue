@@ -34,17 +34,17 @@
 
           <form class="tm-signup-form row">
             <div class="form-group col-lg-6">
-              <div>Pseudo</div>
+              <div class="font-weight-bold">Pseudo</div>
               <div>{{ pseudo_user }}</div>
             </div>
             <div class="form-group col-lg-6">
-              <diV>Email</diV>
+              <div class="font-weight-bold">Email</div>
               <div>
                 {{ email_user }}
               </div>
             </div>
             <div class="form-group col-lg-6">
-              <label for="password">Mot de passe</label>
+              <label for="password" class="font-weight-bold">Mot de passe</label>
               <input
                 id="password"
                 name="password"
@@ -54,7 +54,7 @@
               />
             </div>
             <div class="form-group col-lg-6">
-              <label for="password2">Confirmer le mot de passe</label>
+              <label for="password2" class="font-weight-bold">Confirmer le mot de passe</label>
               <input
                 id="password2"
                 name="password2"
