@@ -35,7 +35,7 @@
 
             <h4 class="h4 mb-4">{{ st.title_story_arc }}</h4>
 
-            <p class="font-weight-normal">{{ st.description_story_arc }}</p>
+            <p class="font-weight-normal limit-text">{{ st.description_story_arc }}</p>
             <p class="font-weight-normal">De
               <router-link :to="'/users/' + st.id_user">{{ st.pseudo_user }}</router-link>
             </p>

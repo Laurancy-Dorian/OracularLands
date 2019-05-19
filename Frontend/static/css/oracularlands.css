@@ -426,10 +426,10 @@ button:focus {
   border: 2px solid #721717;
 }
 
-.btn-primary:not(:disabled):not(.disabled).active, .btn-primary:not(:disabled):not(.disabled):active, .show > .btn-primary.dropdown-toggle {
+/*.btn-primary:not(:disabled):not(.disabled).active, .btn-primary:not(:disabled):not(.disabled):active, .show > .btn-primary.dropdown-toggle {
   background: #380B0b;
   border-color: #380B0b;
-}
+}*/
 
 .btn-primary.focus, .btn-primary:focus {
   box-shadow: 0 0 0 0.2rem rgba(117, 95, 75, .5);
@@ -1116,4 +1116,13 @@ thead {
 
 .div-alternate-background:nth-child(odd) {
   background: #e0e0e0;
+}
+
+.limit-text {
+  display: block; /* or inline-block */
+  text-overflow: "...";
+  word-wrap: break-word;
+  overflow: hidden;
+  max-height: 20rem;
+  line-height: 1.8em;
 }
