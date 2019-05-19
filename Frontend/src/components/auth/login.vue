@@ -109,6 +109,7 @@
 
         // Login Success
         authStore.dispatch('auth_request', body).then(response => {
+          this.$http.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('user-token')
           this.$router.push('account')
 
         }, response => {

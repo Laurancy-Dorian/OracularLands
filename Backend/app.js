@@ -35,8 +35,6 @@ const cors = require('cors')
 app.use(cors())
 
 
-
-
 app.use(logger('dev'));
 
 app.use(express.json());
@@ -69,8 +67,10 @@ app.use((req, res, next) => {
 app.use((req, res, next) => {
     //res.header("Access-Control-Allow-Origin", "*");
     //res.header("Access-Control-Allow-Headers", 'Origin, Accept, Content-Type, Authorization, Access-Control-Allow-Origin');
+    //console.log(req.headers)
     next();
 })
+
 
 /*  Loads the routes for all resources */
 var routes = require('./routes');

@@ -41,7 +41,7 @@ export default new Router({
     {
       path: '/account',
       name: 'Account',
-      component: require('../components/Users/Details-users').default,
+      component: require('../components/Users/Account').default,
       beforeEnter: ifAuthenticated
     },
     {

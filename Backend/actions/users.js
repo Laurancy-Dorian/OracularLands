@@ -3,6 +3,7 @@ const model = require(appRoot + '/db/models/Model')(table);
 const errorAction = require(appRoot + '/helpers/errors');
 const bcrypt = require('bcrypt');
 const auth = require(appRoot + '/actions/auth');
+const util = require(appRoot + '/helpers/util');
 
 const users = {};
 
@@ -95,17 +96,32 @@ users.updateUser = (req, res, next) => {
     let errors = errorAction();
 
     users.checkRightUser(req, res, () => {
+        //console.log(req.dataToken)
+
+        let data = {}
         /* Check the input */
-        if (req.body.pseudo_user && req.body.pseudo_user.length < 4) {
-            errors.addErrorMessage('40002', "Bad Request - Your pseudo length has to be > 3");
-        }
-        if (req.body.password_user && req.body.password_user.length < 5) {
-            errors.addErrorMessage('40003', "Bad Request - Your password length has to be > 4");
+        if (req.body.pseudo_user) {
+            if (req.body.pseudo_user.length < 4) {
+                errors.addErrorMessage('40002', "Bad Request - Your pseudo length has to be > 3");
+            } else if (req.body.pseudo_user !== req.dataToken.user.pseudo_user) {
+                data.pseudo_user = req.body.pseudo_user;
+            }
         }
 
-        const emailValidator = require('email-validator');
-        if (req.body.email_user && !emailValidator.validate(req.body.email_user)) {
-            errors.addErrorMessage('40004', "Bad Request - Invalid Email");
+        if (req.body.password_user) {
+            if (req.body.password_user.length < 5) {
+                errors.addErrorMessage('40003', "Bad Request - Your password length has to be > 4");
+            } else {
+                data.password_user = req.body.password_user
+            }
+        }
+
+
+        if (req.body.email_user) {
+            const emailValidator = require('email-validator');
+            if (!emailValidator.validate(req.body.email_user)) {
+                errors.addErrorMessage('40004', "Bad Request - Invalid Email");
+            }
         }
 
         /* Send errors input if there is sny */
@@ -114,26 +130,36 @@ users.updateUser = (req, res, next) => {
         } else {
             /* Hash the password */
             bcrypt.hash(req.body.password_user, 10, function (err, hash) {
-                req.body.password_user = hash;
+                console.log(hash)
+
+                if (typeof hash !== 'undefined') {
+                    data.password_user = hash;
+                }
+
 
                 const where = {'id_user': req.idUser};
-
-                /* updates the user */
-                model.update(req.body, where, (results, error) => {
-                    if (!error && results.affectedRows != 0) { /* Success */
-                        res.status(204).end();
-                    } else {
-                        if (error) {
-                            if (error.code && error.code == 'ER_DUP_ENTRY') { /* Database error */
-                                errors.addErrorMessage('40401', "Pseudo or email already used - " + error.sqlMessage);
-                            } else {
-                                errors.addErrorMessage('-1', error.sqlMessage);
+                if (!util.isObjectEmpty(data)) {
+                    /* updates the user */
+                    model.update(data, where, (results, error) => {
+                        if (!error && results.affectedRows != 0) { /* Success */
+                            res.status(204).end();
+                        } else {
+                            if (error) {
+                                if (error.code && error.code == 'ER_DUP_ENTRY') { /* Database error */
+                                    errors.addErrorMessage('40901', "Pseudo or email already used - " + error.sqlMessage);
+                                } else {
+                                    errors.addErrorMessage('-1', error.sqlMessage);
+                                }
                             }
+                            errors.addErrorMessage('-1', '');
+                            errors.sendErrors(res, 409);
                         }
-                        errors.addErrorMessage('-1', 'qsfdqsfsqf');
-                        errors.sendErrors(res, 409);
-                    }
-                });
+                    });
+
+                } else {
+                    res.status(204).end();
+                }
+
             });
         }
     });
@@ -179,6 +205,7 @@ users.checkRightUser = (req, res, next) => {
             errors.addErrorMessage('40303', 'Forbidden - You do not have the rights to edit this user');
             errors.sendErrors(res, 403);
         } else {
+            req.dataToken = authData
             next();
         }
     });
