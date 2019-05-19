@@ -58,7 +58,7 @@ export default new Router({
     {
       path: '/users/:id_user(\\d+)/story-arcs',
       name: 'StoryArcsByUser',
-      component: require('../components/story-arcs/Details-story-arcs').default,
+      component: require('../components/story-arcs/Story-arcs').default,
     },
     {
       path: '/users',

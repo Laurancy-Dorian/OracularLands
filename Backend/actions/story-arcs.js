@@ -16,7 +16,7 @@ const storyArcs = {};
  * Sends the storyarcs list (200)
  */
 storyArcs.listStoryArcs = (req, res, next) => {
-    const sql = 'SELECT * ' +
+    const sql = 'SELECT st.id_story_arc, st.title_story_arc, st.description_story_arc, st.image_story_arc, u.id_user, u.pseudo_user ' +
         'FROM story_arc st, users u ' +
         'WHERE st.id_user = u.id_user';
     pool.query(sql, (errors, results) => {
@@ -38,6 +38,16 @@ storyArcs.readStoryArc = (req, res, next) => {
             errors.addErrorMessage('40402 ', 'Not found - There is no Story Arc with this id');
             errors.sendErrors(res, 404);
         }
+    });
+}
+
+storyArcs.listStoryArcsByUser = (req, res, next) => {
+    console.log(req.idUser)
+    const sql = 'SELECT st.id_story_arc, st.title_story_arc, st.description_story_arc, st.image_story_arc, u.id_user, u.pseudo_user ' +
+        'FROM story_arc st, users u ' +
+        'WHERE st.id_user = u.id_user AND st.id_user = ?';
+    pool.query(sql, [req.idUser], (errors, results) => {
+        res.json(results);
     });
 }
 

@@ -1,7 +1,12 @@
 <template>
 
   <div>
+
+
     <div class="container mt-4">
+      <div v-if="message" class="alert alert-dark" role="alert">
+        {{message}}
+      </div>
       <!-- News jumbotron -->
       <div v-for="st in storyArcs" class="jumbotron text-center hoverable p-1">
 
@@ -38,7 +43,8 @@
               <router-link :to="'/users/' + st.id_user">{{ st.pseudo_user }}</router-link>
             </p>
 
-            <button class="btn btn-primary">Voir la fiche de l'arc</button>
+            <router-link :to="'/story-arcs/' + st.id_story_arc" class="btn btn-primary">Voir la fiche de l'arc</router-link>
+            <router-link :to="'/story-arcs/' + st.id_story_arc + '/sessions'" class="btn btn-secondary">Voir les sessions</router-link>
 
           </div>
           <!-- Grid column -->
@@ -58,16 +64,32 @@
     data() {
       return {
         storyArcs: [],
-        path: this.$http.options.root
+        path: this.$http.options.root,
+        message: ''
       }
     },
     mounted() {
-      this.$http.get('story-arcs/').then(response => {
-        this.storyArcs = response.body
 
-      }, response => {
-        console.log(response)
-      });
+      if (this.$route.params.id_user) {
+        this.$http.get('users/'+ this.$route.params.id_user +'/story-arcs/').then(response => {
+          if (response.body.length >0) {
+            this.storyArcs = response.body
+          } else {
+            this.message = "Cet utilisateur n'a créé aucun arc narratif"
+          }
+
+
+        }, response => {
+          console.log(response)
+        });
+      } else {
+        this.$http.get('story-arcs/').then(response => {
+          this.storyArcs = response.body
+
+        }, response => {
+          this.message = "Il n'y a aucun arc"
+        });
+      }
     }
   }
 

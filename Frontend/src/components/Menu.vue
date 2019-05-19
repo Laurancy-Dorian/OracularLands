@@ -34,7 +34,7 @@
 
           <!--Users-->
           <li class="nav-item">
-            <router-link :to="{name: 'Users'}" class="nav-link">
+            <router-link :to="{name: 'Users'}" exact class="nav-link">
               <i class="fas fa-users"></i>
               Utilisateurs
             </router-link>
