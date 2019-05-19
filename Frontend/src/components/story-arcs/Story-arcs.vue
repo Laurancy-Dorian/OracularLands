@@ -62,7 +62,7 @@
     data() {
       return {
         storyArcs: [],
-        path: this.$http.options.root,
+        path: '',
         message: ''
       }
     },

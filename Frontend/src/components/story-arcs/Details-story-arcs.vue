@@ -52,7 +52,7 @@
         description_story_arc: '',
         image_story_arc: '',
         id_user: false,
-        path: this.$http.options.root,
+        path: '',
         message: '',
         sessions: [
           {

@@ -21,7 +21,7 @@
       return {
         id_user: JSON.parse(localStorage.getItem('user')).id_user,
         storyArcs: [],
-        path: this.$http.options.root,
+        path: '',
         message_success: '',
         message_alert:''
       }
