@@ -35,7 +35,7 @@
 
             <p class="font-weight-normal">{{ st.description_story_arc }}</p>
             <p class="font-weight-normal">De
-              <a><strong>NOM PRENOM</strong></a>
+              <router-link :to="'/users/' + st.id_user">{{ st.pseudo_user }}</router-link>
             </p>
 
             <button class="btn btn-primary">Voir la fiche de l'arc</button>

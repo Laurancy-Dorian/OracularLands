@@ -122,6 +122,7 @@ module.exports = (table) => {
     model.read = (select, where, next) => {
         formatWhere(where, (whereSql, values) => {
             let sql = 'SELECT ' + select.join(', ') + ' FROM ' + table + whereSql;
+
             pool.query(sql, values, (error, results, fields) => {
                 next(results, error);
             });

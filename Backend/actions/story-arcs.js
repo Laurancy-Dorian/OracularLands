@@ -16,8 +16,10 @@ const storyArcs = {};
  * Sends the storyarcs list (200)
  */
 storyArcs.listStoryArcs = (req, res, next) => {
-    const fields = ['*'];
-    model.read(fields, {}, (results) => {
+    const sql = 'SELECT * ' +
+        'FROM story_arc st, users u ' +
+        'WHERE st.id_user = u.id_user';
+    pool.query(sql, (errors, results) => {
         res.json(results);
     });
 }
