@@ -86,7 +86,7 @@ CREATE TABLE folder(
     id_parent_folder INTEGER NOT NULL,
     CONSTRAINT pk_folder PRIMARY KEY (id_folder),
     CONSTRAINT fk_folder_users FOREIGN KEY (id_user) REFERENCES users(id_user),
-    CONSTRAINT fk_folder_folder FOREIGN KEY (id_parent_folder) REFERENCES folder(id_folder) ON DELETE CASCADE
+    CONSTRAINT fk_folder_folder FOREIGN KEY (id_parent_folder) REFERENCES folder(id_folder) 
 );
 
 CREATE TABLE file(
@@ -95,17 +95,17 @@ CREATE TABLE file(
     name_file VARCHAR(128),
     path_file VARCHAR(1024),
     text_file TEXT(65000),
-    id_folder INTEGER NOT NULL,
+    id_folder INTEGER,
     CONSTRAINT pk_file PRIMARY KEY (id_file),
-    CONSTRAINT fk_file_folder FOREIGN KEY (id_folder) REFERENCES folder(id_folder) ON DELETE CASCADE
+    CONSTRAINT fk_file_folder FOREIGN KEY (id_folder) REFERENCES folder(id_folder)
 );
 
 CREATE TABLE content_composed_file(
     id_composed_file INTEGER NOT NULL,
     id_file INTEGER NOT NULL,
     CONSTRAINT pk_contentcomposedfile PRIMARY KEY (id_composed_file, id_file),
-    CONSTRAINT fk1_contentcomposedfile_file FOREIGN KEY (id_composed_file) REFERENCES file(id_file) ON DELETE CASCADE,
-    CONSTRAINT fk2_contentcomposedfile_file FOREIGN KEY (id_file) REFERENCES file(id_file) ON DELETE CASCADE
+    CONSTRAINT fk1_contentcomposedfile_file FOREIGN KEY (id_composed_file) REFERENCES file(id_file),
+    CONSTRAINT fk2_contentcomposedfile_file FOREIGN KEY (id_file) REFERENCES file(id_file)
 );
 
 CREATE TABLE files_session(
